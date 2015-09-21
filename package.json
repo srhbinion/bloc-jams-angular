@@ -1,16 +1,16 @@
 {
-  "name": "bloc-frontend-project-starter",
+  "name": "Bloc-Jams in Angular",
   "version": "0.0.2",
-  "description": "Starter project for the Bloc Frontend Web Development",
+  "description": "Starter project for the Bloc Frontend Web Development, Refactoring Bloc Jams application with AngularJS.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bloc/bloc-frontend-project-starter"
+    "url": "https://github.com/srhbinion/bloc-jams-angular"
   },
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "author": "Bloc Inc",
+  "author": ["Sarah Binion","Bloc Inc"],
   "license": "ISC",
   "dependencies": {
     "hapi": "^7.5.0",

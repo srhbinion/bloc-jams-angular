@@ -2,7 +2,7 @@
 
 A starter application for student projects in Bloc's [Frontend Web Development Course](https://www.bloc.io/frontend-development-bootcamp).
 
-## Configuration
+Sarah Binion's Configuration
 
 Start by cloning the repository:
 
