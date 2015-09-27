@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html ng-app="bJams"> 
+    <head lang="en"> <!--english -->
+        <meta charset="UTF-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1"> <!--responsive -->
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,800,600,700,300"> <!--open sans -->
+        <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> <!--icon font -->
+        <link rel="stylesheet" type="text/css" href="/styles/normalize.css"> <!--generic site -->
+        <link rel="stylesheet" type="text/css" href="/styles/main.css"> <!--main site-->
+        <link rel="stylesheet" type="text/css" href="/styles/landing.css"> <!--landing page -->
+        <title>Bloc Jams Angular</title>
+    </head> 
+    <body> 
+        <nav class="navbar">  <!--nav bar -->
+            <a ui-sref="landing" class="logo"> <!--landing view -->
+               <img src="/assets/images/bloc_jams_logo.png" alt="bloc jams logo"> 
+            </a>
+            <div class="links-container"> 
+                <a ui-sref="collection" class="navbar-link">collection</a> <!--collection view -->
+            </div>
+        </nav> <!--nav bar -->
+        <div ui-view> <!-- content angular updates/refreshes -->   
+        </div>    
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.min.js"></script> <!--framework -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/.min.js"></script> <!--framework -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js"></script> <!--music -->
+        <script ui sref="/scripts/app.js"></script> <!--my angular code-->
+    </body>
+</html>
