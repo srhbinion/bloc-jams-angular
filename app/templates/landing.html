@@ -1,29 +1,22 @@
-<!DOCTYPE html>
-<html ng-app="bJams">
-    <div ui-view> <!-- content angular updates/refreshes -->
-        <section class="hero-content"> <!--hero content -->
-            <h1 class="hero-title">Turn the music up!</h1>
-        </section>
-        <section class="selling-points container"> <!--Space makes this pair with .container in main.css -->
-            <div class="point column third">
-                <span class="ion-music-note"></span>
-                <h5 class="point-title">Choose your music</h5>
-                <p class="point-description">The world is full of music; why should you have to listen to music that someone else chose?</p>
-            </div>
-            <div class="point column third">
-                <span class="ion-radio-waves"></span>
-                <h5 class="point-title">Unlimited, streaming, ad-free</h5>
-                <p class="point-description">No arbitrary limits. No distractions.</p>
-            </div>    
-            <div class="point column third">
-                <span class="ion-iphone"></span>
-                <h5 class="point-title">Mobile enabled</h5>
-                <p class="point-description">Listen to your music on the go. This streaming service is available on all mobile platforms.</p>
-            </div>
-        </section>
-    </div>    
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.min.js"></script> <!--framework -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/.min.js"></script> <!--framework -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js"></script> <!--music -->
-    <script ui sref="../scripts/app.js"></script> <!--my angular code-->
-</html>
+<div ui-view> <!-- "landing" content angular updates/refreshes -->
+    <section class="hero-content"> <!--hero image area. Image in css -->
+        <h1 class="hero-title">Turn the music up!</h1>
+    </section>
+    <section class="selling-points container"> <!--Space makes this pair with .container in main.css -->
+        <div class="point column third">
+            <span class="ion-music-note"></span>
+            <h5 class="point-title">Choose your music</h5>
+            <p class="point-description">The world is full of music; why should you have to listen to music that someone else chose?</p>
+        </div>
+        <div class="point column third">
+            <span class="ion-radio-waves"></span>
+            <h5 class="point-title">Unlimited, streaming, ad-free</h5>
+            <p class="point-description">No arbitrary limits. No distractions.</p>
+        </div>    
+        <div class="point column third">
+            <span class="ion-iphone"></span>
+            <h5 class="point-title">Mobile enabled</h5>
+            <p class="point-description">Listen to your music on the go. This streaming service is available on all mobile platforms.</p>
+        </div>
+    </section>
+</div>    
