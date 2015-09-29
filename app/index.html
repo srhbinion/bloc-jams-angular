@@ -10,20 +10,26 @@
         <link rel="stylesheet" type="text/css" href="/styles/landing.css"> <!--landing page -->
         <title>Bloc Jams Angular</title>
     </head> 
-    <body> 
-        <nav class="navbar">  <!--nav bar -->
+    <body class="landing">
+        <!--nav bar -->
+        <nav class="navbar">  
             <a ui-sref="landing" class="logo"> <!--landing view -->
                <img src="/assets/images/bloc_jams_logo.png" alt="bloc jams logo"> 
             </a>
             <div class="links-container"> 
                 <a ui-sref="collection" class="navbar-link">collection</a> <!--collection view -->
             </div>
-        </nav> <!--nav bar -->
-        <div ui-view> <!-- content angular updates/refreshes -->   
-        </div>    
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.min.js"></script> <!--framework -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/.min.js"></script> <!--framework -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js"></script> <!--music -->
-        <script ui sref="/scripts/app.js"></script> <!--my angular code-->
-    </body>
+        </nav>
+        <!-- ============================Controllers============================ -->
+        <div ui-view></div>
+        <!-- ==============================Scripts============================== -->
+        <!-- Angular --> 
+        <script src="/scripts/angular.js"></script> 
+        <!-- UI Router -->
+        <script src="/scripts/angular-ui-router.js"></script>   
+        <!--HTML5 Audio Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.js"></script>
+        <!--my angular code-->  
+        <script src="/scripts/app.js"></script>
+    </body>  
 </html>

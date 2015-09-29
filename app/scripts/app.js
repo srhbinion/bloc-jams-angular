@@ -1,7 +1,12 @@
 // named the app and set the angular function. Array displays what will be passes though the app.
-var myAppModule = angular.module("bJams",["ui.router"]);
+var bJams = angular.module("bJams",["ui.router"]);
 
-myAppModule.config(function($stateProvider, $locationProvider) {
+/**
+ * Configuration for the angular site views
+ * @param  {function} $stateProvider    - html code for displaying differnt views
+ * @param  {function} $locationProvider)  - removes errors and hashbangs from address
+ */
+bJams.config(function($stateProvider, $locationProvider) {
 	//configure an application's path
 	$locationProvider.html5Mode({
         //disables hashbangs in URL
@@ -14,20 +19,30 @@ myAppModule.config(function($stateProvider, $locationProvider) {
 	$stateProvider
 		.state("landing",{
 			// properties of the state
-			url: "/landing",
-			controller:"Landing.controller",
-			templateURL:"../templates/landing.html"
+			url: "/",
+			controller:"LandingController",
+			templateUrl:"/templates/landing.html"
 		})
 		.state("collection",{
 			// properties of the state
 			url: "/collection",
-			controller:"Collection.controller",
-			templateURL:"../templates/collection.html"
+			controller:"CollectionController",
+			templateUrl:"/templates/collection.html"
 		})
 		.state("album",{
 			// properties of the state
 			url: "/album",
-			controller:"Album.controller",
-			templateURL:"../templates/album.html"
+			controller:"AlbumController",
+			templateUrl:"/templates/album.html"
 		});
 });
+
+bJams.controller("LandingController", ["$scope", function($scope) {
+		$scope.welcome = "Music of my";
+}]);
+
+bJams.controller("CollectionController", ["$scope", function($scope) {
+}]);
+
+bJams.controller("AlbumController", ["$scope", function($scope) {
+}]);
