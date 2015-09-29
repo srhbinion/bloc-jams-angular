@@ -4,21 +4,10 @@
 <section>
     <!-- TPDO: find function animation to make container rise-up --> 
     <div class="container">
-    <!-- TPDO: find function to cycle through points's array and use ng-repeat -->
-        <div class="selling-points container">
-            <span class="{{point.actionItems[0].icon}}"></span>
-            <h4 class="point-title">{{point.actionItems[$].title}}</h4>
-            <p class="point-description">{{point.actionItems[0].description}}</p>
-        </div>
-        <div class="selling-points container">
-            <span class="{{point.actionItems[1].icon}}"></span>
-            <h4 class="point-title">{{point.actionItems[1].title}}</h4>
-            <p class="point-description">{{point.actionItems[1].description}}</p>
-        </div>
-        <div class="selling-points container">
-            <span class="{{point.actionItems[2].icon}}"></span>
-            <h4 class="point-title">{{point.actionItems[2].title}}</h4>
-            <p class="point-description">{{point.actionItems[2].description}}</p>
+        <div class="selling-points container" ng-repeat="actionItems in point.actionItems">
+            <span class="{{point.actionItems[$index].icon}}"></span>
+            <h4 class="point-title">{{point.actionItems[$index].title}}</h4>
+            <p class="point-description">{{point.actionItems[$index].description}}</p>
         </div>
     </div>
 </section>
