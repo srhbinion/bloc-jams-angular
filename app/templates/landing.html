@@ -1,20 +1,24 @@
 <section class="hero-content"> <!--hero content -->
     <h1 class="hero-title">{{welcome}}</h1>
 </section>
-<section class="selling-points container"> <!--Space makes this pair with .container in main.css -->
-    <div class="point column third">
-        <span class="ion-music-note"></span>
-        <h5 class="point-title">Choose your music</h5>
-        <p class="point-description">The world is full of music; why should you have to listen to music that someone else chose?</p>
-    </div>
-    <div class="point column third">
-        <span class="ion-radio-waves"></span>
-        <h5 class="point-title">Unlimited, streaming, ad-free</h5>
-        <p class="point-description">No arbitrary limits. No distractions.</p>
-    </div>    
-    <div class="point column third">
-        <span class="ion-iphone"></span>
-        <h5 class="point-title">Mobile enabled</h5>
-        <p class="point-description">Listen to your music on the go. This streaming service is available on all mobile platforms.</p>
+<section>
+    <!-- TPDO: find function animation to make container rise-up --> 
+    <div class="container">
+    <!-- TPDO: find function to cycle through points's array and use ng-repeat -->
+        <div class="selling-points container">
+            <span class="{{point.actionItems[0].icon}}"></span>
+            <h4 class="point-title">{{point.actionItems[$].title}}</h4>
+            <p class="point-description">{{point.actionItems[0].description}}</p>
+        </div>
+        <div class="selling-points container">
+            <span class="{{point.actionItems[1].icon}}"></span>
+            <h4 class="point-title">{{point.actionItems[1].title}}</h4>
+            <p class="point-description">{{point.actionItems[1].description}}</p>
+        </div>
+        <div class="selling-points container">
+            <span class="{{point.actionItems[2].icon}}"></span>
+            <h4 class="point-title">{{point.actionItems[2].title}}</h4>
+            <p class="point-description">{{point.actionItems[2].description}}</p>
+        </div>
     </div>
 </section>

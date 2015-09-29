@@ -11,7 +11,7 @@
         <title>Bloc Jams Angular</title>
     </head> 
     <body class="landing">
-        <!--nav bar -->
+        <!-- =============================Nav Bar============================= -->
         <nav class="navbar">  
             <a ui-sref="landing" class="logo"> <!--landing view -->
                <img src="/assets/images/bloc_jams_logo.png" alt="bloc jams logo"> 
@@ -20,16 +20,17 @@
                 <a ui-sref="collection" class="navbar-link">collection</a> <!--collection view -->
             </div>
         </nav>
-        <!-- ============================Controllers============================ -->
-        <div ui-view></div>
-        <!-- ==============================Scripts============================== -->
+        <!-- ===============================Views=============================== -->
+        <div ui-view>
+        </div>
+        <!-- ========================Frameworks + Libraries===================== -->
         <!-- Angular --> 
         <script src="/scripts/angular.js"></script> 
         <!-- UI Router -->
         <script src="/scripts/angular-ui-router.js"></script>   
         <!--HTML5 Audio Library -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.js"></script>
-        <!--my angular code-->  
+        <!-- =========================Custom Scripts============================ -->
         <script src="/scripts/app.js"></script>
-    </body>  
+    </body>
 </html>

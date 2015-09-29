@@ -28,11 +28,20 @@ body.landing {
  
  .selling-points {
      position: relative;
+     float: right;
+     width: 25%;
+     text-align: center;
+     margin: 2rem;
  }
+
+
+ .container {
+     border:3px;
+
+}
  
  .point {
-     position: relative;
-     padding: 2rem;
+     padding: 60rem;
      text-align: center;
      opacity: 0;
      -webkit-transform: scaleX(0.9) translateY(3rem);

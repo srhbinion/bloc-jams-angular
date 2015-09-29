@@ -38,7 +38,28 @@ bJams.config(function($stateProvider, $locationProvider) {
 });
 
 bJams.controller("LandingController", ["$scope", function($scope) {
-		$scope.welcome = "Music of my";
+		$scope.welcome = "Turn the music up!";
+		$scope.point = {
+			actionItems:[
+				{
+					icon: "ion-iphone",
+					title: "Mobile enabled",
+					description: "Listen to your music on the go. This streaming service is available on all mobile platforms."
+				},
+				{
+					icon: "ion-radio-waves",
+					title: "Unlimited, streaming, ad-free",
+					description: "No arbitrary limits. No distractions."
+				},
+				
+				{
+					icon: "ion-music-note",
+					title: "Choose your music",
+					description: "The world is full of music; why should you have to listen to music that someone else chose?"
+				}
+			
+			]
+		} 	
 }]);
 
 bJams.controller("CollectionController", ["$scope", function($scope) {
