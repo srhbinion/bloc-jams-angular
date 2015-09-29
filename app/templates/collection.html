@@ -1,6 +1,11 @@
-<section class="album-covers container">
-    <h1 class="hero-title">So Far</h1>
-    <div class="clearfix">
-        <h2>Good Bye!</h2>           
-    </div>
+<section class="album-covers container" ng-controller="CollectionController">
+	<div class="clearfix" ng-repeat="actionItems in albumArray.actionItems">
+		<a ui-sref="album">
+			<img src="{{albumArray.actionItems[$index].albumArtUrl}}">
+		</a>
+		<a ui-sref="album">
+			<h2>{{albumArray.actionItems[$index].name}}</h2>
+		</a>
+		<p>{{albumArray.actionItems[$index].artist}}</p>       
+	</div>
 </section>

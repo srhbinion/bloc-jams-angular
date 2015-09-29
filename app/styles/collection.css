@@ -7,6 +7,7 @@ body.collection {
  
  .album-covers {
      position: relative;
+     float: right;
  } 
  
  .collection-album-container {
@@ -14,6 +15,7 @@ body.collection {
      margin-top: 30px;
      margin-bottom: 20px;
      text-align: center;
+     float: right;
  }
  
  .collection-album-container .caption {
