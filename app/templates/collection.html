@@ -1,11 +1,14 @@
-<section class="album-covers container" ng-controller="CollectionController"> <!--all album cover art page -->
-	<div class="clearfix" ng-repeat="actionItems in albumArray.actionItems">
-		<a ui-sref="album">
-			<img src="{{albumArray.actionItems[$index].albumArtUrl}}">
+<section class="album-covers container clearfix" ng-controller="CollectionController"> <!--all album cover art page -->
+	<div class="collection-album-container column fouth" ng-repeat="album in albums"> <!--album-->
+		<a ui-sref="album"> <!--link to album page-->
+			<img ng-src="{{album.albumArtUrl}}"> <!---->
 		</a>
-		<a ui-sref="album">
-			<h2>{{albumArray.actionItems[$index].name}}</h2>
-		</a>
-		<p>{{albumArray.actionItems[$index].artist}}</p>       
+		<div class="collection-album-info caption">
+			<p>
+				<a class="album-name" ui-sref="album" ng-click="setAlbum($index)">{{album.name}}</a></br> <!--link to album page-->
+				<a ui-sref="album" ng-click="setAlbum($index)">{{album.artist}}</a></br><!--Name of album --> 
+				<a class="album-length" ng-click="setAlbum($index)">{{album.songs.length}}</a><!--Name of artist--> 
+			</p>
+		</div>     
 	</div>
 </section>

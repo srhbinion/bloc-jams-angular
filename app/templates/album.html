@@ -1,24 +1,34 @@
-<main class="album-view container narrow"> <!-- main album currently playing -->
+<!-- main album currently playing -->
+<main class="album-view container narrow" ng-controller="AlbumController"> 
     <section class="clearfix">
         <div class="column half">
-            <img src="../assets/images/album_covers/01.png" class="album-cover-art">
+            <img ng-src="{{album.albumArtUrl}}" class="album-cover-art">
         </div>
         <div class="album-view-details column half"> <!-- album details -->
-            <h2 class="album-view-title">The Colors</h2>
-            <h3 class="album-view-artist">Pablo Picasso</h3>
-            <h5 class="album-view-release-info"> 1909 Spanish Records</h5>
+            <h2 class="album-view-title">{{album.name}}</h2>
+            <h3 class="album-view-artist">{{album.artist}}</h3>
+            <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
         </div>
     </section>
-    <table class="album-view-song-list"> <!-- songlist table -->
+<!-- songlist table -->
+    <table class="album-song-listing" ng-repeat="song in album.songs">
         <thead>
             <tr>
             </tr>
         </thead>
+        <tbody>
+            <tr>
+                <td class="song-item-number"> {{$index + 1}} </td>
+                <td class="song-item-title"> {{song.name}} </td>
+                <td class="song-item-duration"> {{song.length}} </td>
+            </tr>
+        </tbody>
     </table>
 </main>
-<section class="player-bar"> <!-- player bar -->
+<!-- player bar 
+<section class="player-bar" ng-controller="AlbumController"> 
     <div class="container">
-        <div class ="player-bar-control-group left-controls"> <!-- nav icons for player bar -->
+        <div class ="player-bar-control-group left-controls">  //nav icons for player bar 
             <a class="previous">
                 <span class="ion-skip-backward"></span>
             </a>
@@ -29,7 +39,7 @@
                 <span class="ion-skip-forward"></span>
             </a>
         </div>
-        <div class="player-bar-control-group currently-playing"> <!-- currently playing song -->
+        <div class="player-bar-control-group currently-playing"> //currently playing song 
             <h2 class="song-name"></h2>
             <h2 class="artist-song-mobile"></h2>
             <div class="seek-control">
@@ -42,7 +52,7 @@
             </div>
             <h3 class="artist-name"></h3>
         </div>
-        <div class="player-bar-control-group right-controls"> <!-- volume -->
+        <div class="player-bar-control-group right-controls"> //volume 
             <div class="volume">
                 <span class="ion-volume-high"></span>
                 <div class="seek-bar">
@@ -52,4 +62,4 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->

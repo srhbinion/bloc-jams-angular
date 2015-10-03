@@ -9,7 +9,7 @@ var bJams = angular.module("bJams",["ui.router"]);
 bJams.config(function($stateProvider, $locationProvider) {
 	//configure an application's path
 	$locationProvider.html5Mode({
-        //disables hashbangs in URL
+        //disables hashbangs in URL - TODO: need to change to true after testing
         enabled: true,
         //avoids common $location errors
         requireBase: false
@@ -42,8 +42,9 @@ bJams.config(function($stateProvider, $locationProvider) {
  * @return {welcome}  - Hero Text
  * @return {actionItems}  - Array with call-to-action items
  */
-bJams.controller("LandingController", ["$scope", function($scope) {
+bJams.controller("LandingController", function($scope) {
 	$scope.welcome = "Turn the music up!";
+	//$rootScope.bodyClass ="landing";
 	$scope.point = {
 		actionItems:[
 			{
@@ -62,44 +63,36 @@ bJams.controller("LandingController", ["$scope", function($scope) {
 				description: "The world is full of music; why should you have to listen to music that someone else chose?"
 			}
 		]
-	};	
-}]);
+	};
+
+	//code from foundation 23. TODO: Animating 3 "selling points" when page scrolls.
+	window.onload = function(){
+		var sellingPoints = document.getElementsByClassName("sellingPoints")[0];
+		var scrollDistance = sellingPoints.getBoundClientRect().top - window.innerHeight + 200;
+
+		if(window.innerHeight > 950){
+			animatePoints(pointsArray);
+		}
+
+		window.addEventListener("scroll", function(event){
+			if (document.body.scrollTop >= scrollDistance){
+				animate.Points(pointsArray);
+			}
+		});
+	};
+});
 
 bJams.controller("CollectionController", ["$scope", function($scope) {
-	//texting purpose
-	$scope.albumArray = {
-        actionItems:[
-            {
-                name: "The Colors",
-                artist: "Pablo Picasso",
-                label: "Cubism",
-                year: "1881",
-                albumArtUrl: "assets/images/album_covers/01.png",
-                songs: [
-                    {name: "Blue", length: "4:26", audioUrl: "/assets/music/blue"},
-                    {name: "Green", length: "3:14", audioUrl: "assets/music/green"},
-                    {name: "Red", length: "5:01", audioUrl: "assets/music/red"},
-                    {name: "Pink", length: "3:21", audioUrl: "assets/music/pink"},
-                    {name: "Magenta", length: "2:15", audioUrl: "assets/music/magenta"}
-                ]
-            },
-            {
-                name: "The Colors",
-                artist: "Pablo Picasso",
-                label: "Cubism",
-                year: "1881",
-                albumArtUrl: "assets/images/album_covers/01.png",
-                songs: [
-                    {name: "Blue", length: "4:26", audioUrl: "/assets/music/blue"},
-                    {name: "Green", length: "3:14", audioUrl: "assets/music/green"},
-                    {name: "Red", length: "5:01", audioUrl: "assets/music/red"},
-                    {name: "Pink", length: "3:21", audioUrl: "assets/music/pink"},
-                    {name: "Magenta", length: "2:15", audioUrl: "assets/music/magenta"}
-                ]
-            }
-        ]
+//texting purpose
+	$scope.albums = [albumPicasso, albumMarconi, albumWarhol, albumNow];
+        
+    $scope.setAlbum = function($index) {
+    	currentAlbum = $scope.albums[$index];
     };
 }]);
 
 bJams.controller("AlbumController", ["$scope", function($scope) {
+	$scope.album = currentAlbum;
 }]);
+
+var currentAlbum = null;
