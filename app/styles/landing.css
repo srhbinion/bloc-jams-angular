@@ -1,7 +1,7 @@
 body.landing {
      background-color: rgb(58,23,63);
  }
- 
+ /*picture*/
  .hero-content {
      position: relative;
      min-height: 600px;
@@ -10,7 +10,7 @@ body.landing {
      background-position: center center;
      background-size: cover;
  } 
- 
+  /*main picture text*/
  .hero-content .hero-title {
      position: absolute;
      top: 40%;
@@ -23,16 +23,36 @@ body.landing {
      font-weight: 300;
      text-transform: uppercase;
      letter-spacing: 0.5rem;
-     text-shadow: 1px 1px 0px rgb(58,23,63);
+     /*Drop shaddow effect*/
+     text-shadow: 0 1px 0 #ccc, 
+               0 2px 0 #c9c9c9,
+               0 3px 0 #bbb,
+               0 4px 0 #b9b9b9,
+               0 5px 0 #aaa,
+               0 6px 1px rgba(0,0,0,.1),
+               0 0 5px rgba(0,0,0,.1),
+               0 1px 3px rgba(0,0,0,.3),
+               0 3px 5px rgba(0,0,0,.2),
+               0 5px 10px rgba(0,0,0,.25),
+               0 10px 10px rgba(0,0,0,.2),
+               0 20px 20px rgba(0,0,0,.15);
  }
- 
+  /*3 boxes w/ content*/
  .selling-points {
      position: relative;
+     float: right;
+     width: 25%;
+     text-align: center;
+     margin: 2rem;
  }
- 
+/*content within the 3 boxes*/
+ .container {
+     border:3px;
+
+}
+/*content within the 3 boxes*/
  .point {
-     position: relative;
-     padding: 2rem;
+     padding: 60rem;
      text-align: center;
      opacity: 0;
      -webkit-transform: scaleX(0.9) translateY(3rem);
@@ -45,12 +65,19 @@ body.landing {
      -webkit-transition-delay: 0.2s; 
      -moz-transition-delay: 0.2s;
      transition-delay: 0.2s;
+
  }
- 
+ /*content title within the 3 boxes*/
  .point .point-title {
-     font-size: 1.25rem;
+     font-size: 3rem;
+     background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
  }
- 
+ /*content icon within the 3 boxes*/
  .ion-music-note,
  .ion-radio-waves,
  .ion-iphone {

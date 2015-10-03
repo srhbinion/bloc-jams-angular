@@ -7,6 +7,7 @@ body.collection {
  
  .album-covers {
      position: relative;
+     float: right;
  } 
  
  .collection-album-container {

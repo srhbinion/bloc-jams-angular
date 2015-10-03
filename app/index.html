@@ -1,5 +1,5 @@
 <!DOCTYPE html> 
-<html ng-app="bJams"> 
+<html ng-app="bJams"> <!--Angular name -->
     <head lang="en"> <!--english -->
         <meta charset="UTF-8"> 
         <meta name="viewport" content="width=device-width, initial-scale=1"> <!--responsive -->
@@ -10,20 +10,28 @@
         <link rel="stylesheet" type="text/css" href="/styles/landing.css"> <!--landing page -->
         <title>Bloc Jams Angular</title>
     </head> 
-    <body> 
-        <nav class="navbar">  <!--nav bar -->
+    <body class="landing">
+        <!-- =============================Nav Bar============================= -->
+        <nav class="navbar">  
             <a ui-sref="landing" class="logo"> <!--landing view -->
                <img src="/assets/images/bloc_jams_logo.png" alt="bloc jams logo"> 
             </a>
             <div class="links-container"> 
                 <a ui-sref="collection" class="navbar-link">collection</a> <!--collection view -->
             </div>
-        </nav> <!--nav bar -->
-        <div ui-view> <!-- content angular updates/refreshes -->   
+        </nav>
+        <!-- ===============================Views=============================== -->
+        <div ui-view>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.24/angular.js"></script> <!--framework -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/.min.js"></script> <!--framework -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.js"></script> <!--music -->
-        <script src="/scripts/app.js"></script> <!--my angular code-->
+        <!-- ========================Frameworks + Libraries===================== -->
+        <!-- Angular --> 
+        <script src="/scripts/angular.js"></script> 
+        <!-- UI Router -->
+        <script src="/scripts/angular-ui-router.js"></script>   
+        <!--HTML5 Audio Library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.js"></script>
+        <!-- =========================Custom Scripts============================ -->
+        <script src="/scripts/fixtures.js"></script>
+        <script src="/scripts/app.js"></script>
     </body>
 </html>
