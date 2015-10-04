@@ -1,5 +1,5 @@
 <!-- main album currently playing -->
-<main class="album-view container narrow" ng-controller="AlbumController"> 
+<main class="album-view container narrow"> 
     <section class="clearfix">
         <div class="column half">
             <img ng-src="{{album.albumArtUrl}}" class="album-cover-art">
@@ -18,9 +18,9 @@
         </thead>
         <tbody>
             <tr>
-                <td class="song-item-number"> {{$index + 1}} </td>
-                <td class="song-item-title"> {{song.name}} </td>
-                <td class="song-item-duration"> {{song.length}} </td>
+                <td class="song-item-number">{{$index + 1}}</td>
+                <td class="song-item-title">{{song.name}}</td>
+                <td class="song-item-duration">{{song.length}}</td>
             </tr>
         </tbody>
     </table>
