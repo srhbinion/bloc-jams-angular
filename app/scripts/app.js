@@ -91,14 +91,33 @@ bJams.controller("CollectionController", ["$scope", function($scope) {
     };
 }]);
 
-bJams.controller("AlbumController", ["$scope", function($scope) {
-	$scope.album = currentAlbum;
+bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
+	$scope.album = SongPlayer.getCurrentAlbum();
+    $scope.song = SongPlayer.getSong();
 	//controller logic - service
-	$scope.pauseSong = function(song){
-		SongPlayer.pause();
+    $scope.setSong = function(songNumber){
+        SongPlayer.setSong(songNumber)
+    };
+    $scope.previousSong = function(songNumber){
+        SongPlayer.previousSong(songNumber)
+    };
+    $scope.nextSong = function(songNumber){
+        SongPlayer.nextSong(songNumber)
+    };
+	$scope.pauseSong = function(songNumber){
+		SongPlayer.pause(songNumber);
 	};
-	
-
+    $scope.playSong = function(songNumber){
+        SongPlayer.play(songNumber);
+    };
+    $scope.timeSliderPosition = function(){
+        while(SongPlayer.isSongPlaying()){
+            return SongPlayer.getTimePosition();
+        }
+    };
+    $scope.setVolume = function(volume){
+        SongPlayer.setVolume(volume)
+    };
 }]);
 
 bJams.service("SongPlayer", ["albumData", function(albumData){
@@ -108,67 +127,4 @@ bJams.service("SongPlayer", ["albumData", function(albumData){
     this.currentSongFromAlbum = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
-    
-    return {
-        getCurrentAlbum: function(){
-            //set the current song
-            return this.currentAlbum;
-        },
-        getCurrentlyPlayingSongNumber: function(){
-            //set the song number
-            return this.currentlyPlayingSongNumber;
-        },
-        getCurrentSongFromAlbum: function(){
-            return this.currentSongFromAlbum;
-        },
-        isSongPaused: function(){
-        
-        },
-        isSongPlaying: function(){
-            return (this.currentSoundFile && !this.currentSoundFile.isPaused());
-        },
-        getAlbums: function(){
-        
-        },
-        setCurrentAlbum: function(){
-        
-        },
-        getSong: function(){
-            return this.currentSoundFile;
-        },
-        setSong: function(){
-            
-        },
-        previousSong: function(){
-        
-        },
-        nextSong: function(){
-        
-        },
-        play: function(){
-        
-        },
-		pause: function() {
-            if(this.isSongPlaying())
-            {this.currentSoundFile.play();
-            }
-		},
-        getTimePosition: function(){
-        
-        },
-        setTimePosition: function(){
-        
-        },
-        getVolume: function(){
-            return this.currentVolume;
-        },
-        setVolume: function(){
-            
-        },
-	};
-    
-    //TODO define
-	previousSong()=null;
-	//TODO define
-	nextSong()=null;
 }]);
