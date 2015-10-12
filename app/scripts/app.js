@@ -37,16 +37,6 @@ bJams.config(function($stateProvider, $locationProvider) {
 		});
 });
 /**
- * Controller to get songs from array and store in products array till page is ready to load.
- */
-bJams.controller("albumData", ["$http", function($http){
-    var dataStore = this;
-    dataStore.products = [];
-    $http.get("/scripts/fixtures.js").success(function(data){
-        dataStore.products = data;
-    });
-}]);
-/**
  * Controls the landing view
  * @return {welcome}  - Hero Text
  * @return {actionItems}  - Establishes the array with call-to-action containers
@@ -78,49 +68,22 @@ bJams.controller("LandingController", function($scope) {
 bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
 	//defines page array details with album information
 	$scope.albums = SongPlayer.getAlbums();
+    console.log($scope.albums);
     //activates the slected album    
     $scope.setAlbum = function($index) {
     	SongPlayer.setCurrentAlbumIndex($index);
     };
 }]);
 
-bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
-	$scope.album = SongPlayer.getCurrentAlbum();
-    $scope.song = SongPlayer.getSong();
-	//controller logic - service
-    $scope.setSong = function(songNumber){
-        SongPlayer.setSong(songNumber)
-    };
-    $scope.previousSong = function(){
-        SongPlayer.previousSong();
-    };
-    $scope.nextSong = function(){
-        SongPlayer.nextSong();
-    };
-	$scope.pauseSong = function(){
-		SongPlayer.pauseSong();
-	};
-    $scope.playSong = function(){
-        SongPlayer.playSong();
-    };
-    $scope.timeSliderPosition = function(){
-        while(SongPlayer.isSongPlaying()){
-            return SongPlayer.getTimePosition();
-        }
-    };
-    $scope.setVolume = function(volume){
-        SongPlayer.setVolume(volume)
-    };
-}]);
 
-bJams.service("SongPlayer", ["albumData", function(albumData){
+
+bJams.service("SongPlayer", function(albumService){
 	//Song status - default state
     this.currentAlbum = null;
     this.currentlyPlayingSongNumber = null;
     this.currentSongFromAlbum = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
-    
     //PlayPause Button Templates
 
     //Player Bar Templates
@@ -149,11 +112,12 @@ bJams.service("SongPlayer", ["albumData", function(albumData){
         },
         getAlbums: function(){
             //get albums from array
-            return albumData;
+            this.albumData = albumService.getAlbums();    
+            return this.albumData;
         },
         setCurrentAlbum: function(){
             // selects album
-            this.currentAlbum = albumData[index];
+            this.currentAlbum = this.albumData[index];
         },
         getSong: function(){
             //find out current song
@@ -222,4 +186,4 @@ bJams.service("SongPlayer", ["albumData", function(albumData){
             }
         }
 	};
-}]);
+});
