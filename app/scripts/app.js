@@ -1,5 +1,5 @@
 // named the app and set the angular function. Array displays what will be passes though the app.
-var bJams = angular.module("bJams",["ui.router"]);
+var bJams = angular.module("bJams", ["ui.router"]);
 
 /**
  * Configuration for the angular site views and linking the controllers
@@ -36,7 +36,16 @@ bJams.config(function($stateProvider, $locationProvider) {
 			templateUrl:"/templates/album.html"
 		});
 });
-
+/**
+ * Controller to get songs from array and store in products array till page is ready to load.
+ */
+bJams.controller("albumData", ["$http", function($http){
+    var dataStore = this;
+    dataStore.products = [];
+    $http.get("/scripts/fixtures.js").success(function(data){
+        dataStore.products = data;
+    });
+}]);
 /**
  * Controls the landing view
  * @return {welcome}  - Hero Text
@@ -64,30 +73,14 @@ bJams.controller("LandingController", function($scope) {
 			}
 		]
 	};
-
-	//Vanilla code from foundation 23. TODO: Animating 3 "selling points" when page scrolls.
-	//window.onload = function(){
-	//	var sellingPoints = document.getElementsByClassName("sellingPoints")[0];
-	//	var scrollDistance = sellingPoints.getBoundClientRect().top - window.innerHeight + 200;
-
-	//	if(window.innerHeight > 950){
-	//		animatePoints(pointsArray);
-	//	}
-
-	//	window.addEventListener("scroll", function(event){
-	//		if (document.body.scrollTop >= scrollDistance){
-	//			animate.Points(pointsArray);
-	//		}
-	//	});
-	//};
 });
 
-bJams.controller("CollectionController", ["$scope", function($scope) {
+bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
 	//defines page array details with album information
-	$scope.albums = [albumPicasso, albumMarconi, albumWarhol, albumNow];
+	$scope.albums = SongPlayer.getAlbums();
     //activates the slected album    
     $scope.setAlbum = function($index) {
-    	currentAlbum = $scope.albums[$index];
+    	SongPlayer.setCurrentAlbumIndex($index);
     };
 }]);
 
@@ -98,17 +91,17 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
     $scope.setSong = function(songNumber){
         SongPlayer.setSong(songNumber)
     };
-    $scope.previousSong = function(songNumber){
-        SongPlayer.previousSong(songNumber)
+    $scope.previousSong = function(){
+        SongPlayer.previousSong();
     };
-    $scope.nextSong = function(songNumber){
-        SongPlayer.nextSong(songNumber)
+    $scope.nextSong = function(){
+        SongPlayer.nextSong();
     };
-	$scope.pauseSong = function(songNumber){
-		SongPlayer.pause(songNumber);
+	$scope.pauseSong = function(){
+		SongPlayer.pauseSong();
 	};
-    $scope.playSong = function(songNumber){
-        SongPlayer.play(songNumber);
+    $scope.playSong = function(){
+        SongPlayer.playSong();
     };
     $scope.timeSliderPosition = function(){
         while(SongPlayer.isSongPlaying()){
@@ -127,4 +120,106 @@ bJams.service("SongPlayer", ["albumData", function(albumData){
     this.currentSongFromAlbum = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
+    
+    //PlayPause Button Templates
+
+    //Player Bar Templates
+    
+    return {
+        getCurrentAlbum: function(){
+            //get active album
+            return this.currentAlbum;
+        },
+        getCurrentlyPlayingSongNumber: function(){
+            //get the song number
+            return this.currentlyPlayingSongNumber;
+        },
+        getCurrentSongFromAlbum: function(){
+            //
+            return this.currentSongFromAlbum;
+        },
+        isSongPaused: function(){
+            //check if a song is playing and is in a paused state
+            return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
+        },
+        isSongPlaying: function(){
+            //checks if a song is playing and not just paused.
+            return (this.currentSoundFile && !this.currentSoundFile.isPaused());
+            
+        },
+        getAlbums: function(){
+            //get albums from array
+            return albumData;
+        },
+        setCurrentAlbum: function(){
+            // selects album
+            this.currentAlbum = albumData[index];
+        },
+        getSong: function(){
+            //find out current song
+            return this.getCurrentSongFromAlbum;
+        },
+        setSong: function(){
+            this.getCurrentlyPlayingSongNumber = songNumber;
+            if (this.currentSoundFile){
+                this.currentSoundFile.stop();
+                //updateSeekBarWhileSongPlays
+            }
+            this.currentlyPlayingSongNumber = songNumber;
+            this.currentSongFromAlbum = this.currentAlbum.songs[songNumber-1];
+            // Assign a Buzz object. Pass audio file though current song from Album object.
+            this.currentSoundFile = new buzz.sound(this.currentSongFromAlbum.audioUrl, {
+                // Mp3 to start playing ASAP.
+                formats: ["mp3"],
+                preload: true
+            });
+            //volume
+            this.getVolume(this.currentVolume);
+        },
+        previousSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+            var prevSongIndex = (currentSongIndex -1);
+            
+            if (currentSongIndex < 0){
+                prevSongIndex = (this.currentAlbum.song.length - 1);
+            }
+            this.setSong(prevSongIndex + 1);
+        },
+        nextSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+            var nextSongIndex = (currentSongIndex + 1);
+            if(nextSongIndex => this.currentAlbum.song.length){
+                nextSongIndex = 0;
+            }
+            this.setSong(nextSongIndex + 1);
+        },
+        play: function(){
+            if(this.isSongPaused()) {
+                this.currentSoundFile.play();}
+        },
+		pause: function(){
+            if(this.isSongPlaying()){
+                this.currentSoundFile.pause();}
+        },
+        getTimePosition: function(){
+            return this.currentSoundFile.getTime();
+        },
+        setTimePosition: function(){
+            if (this.currentSoundFile) {
+                this.currentSoundFile.setTime();
+            }
+        },
+        getVolume: function(){
+            // finds out current volume
+            return this.currentVolume;
+        },
+        setVolume: function(){
+            //if there is a sound file it sets the volume
+            this.currentVolume = volume;
+            
+            if (this.currentSoundFile) {
+                this.currentSoundFile.setVolume(volume);
+            }
+        }
+	};
 }]);
