@@ -1,18 +1,19 @@
-<!-- main album currently playing -->
+<!-- ==============================Current Album================================= -->  
 <main class="album-view container narrow"> 
     <section class="clearfix">
         <div class="column half">
-            <img ng-src="{{album.albumArtUrl}}" class="album-cover-art">
+            <img ng-src="{{albumService.albumArtUrl}}" class="album-cover-art">
         </div>
-        <!-- album details -->
-        <div class="album-view-details column half"> 
-            <h2 class="album-view-title">{{album.name}}</h2>
-            <h3 class="album-view-artist">{{album.artist}}</h3>
-            <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
+<!-- ==========================Current Album - Details=========================== --> 
+        <div class="album-view-details column half">
+            <h1>Song Info Section:</h1>
+            <h2 class="album-view-title">Name:{{SongPlayer.getCurrentAlbum().name}}</h2>
+            <h3 class="album-view-artist">{{$scope.setAlbum.artist}}</h3>
+            <h5 class="album-view-release-info">{{$rootScope.album.year}} {{$rootScope.album.label}}</h5>
         </div>
     </section>
-    <!-- songlist table -->
-    <table class="album-song-listing" ng-repeat="song in album.songs">
+<!-- ==========================Current Album - Song List=========================== --> 
+    <table class="album-song-listing"> <!--ng-repeat="song in album.song" -->
         <thead>
             <tr>
             </tr>
@@ -26,9 +27,9 @@
         </tbody>
     </table>
 </main>
+<!-- ==========================Player Bar - Nav Bar=========================== -->   
 <section class="player-bar"> 
     <div class="container">
-        <!--nav icons for player bar-->
         <div class ="player-bar-control-group left-controls">   
             <a class="previous" ng-click="previousSong()">
                 <span class="ion-skip-backward"></span>
@@ -40,7 +41,7 @@
                 <span class="ion-skip-forward"></span>
             </a>
         </div>
-        <!--currently playing song -->
+<!-- ==========================Player Bar - Current Song=========================== --> 
         <div class="player-bar-control-group currently-playing"> 
             <h2 class="song-name"></h2>
             <h2 class="artist-song-mobile"></h2>
@@ -49,12 +50,12 @@
                     <div class="fill"></div>
                     <div class="thumb"></div>
                 </div>
-                <div class="current-time">2:30</div>
+                <div class="current-time">2:00</div>
                 <div class="total-time">4:45</div>
             </div>
             <h3 class="artist-name"></h3>
         </div>
-        <!--volume-->
+<!-- ==========================Player Bar - Volume=========================== --> 
         <div class="player-bar-control-group right-controls"> 
             <div class="volume">
                 <span class="ion-volume-high"></span>
