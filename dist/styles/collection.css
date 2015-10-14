@@ -6,8 +6,8 @@ body.collection {
  }
  
  .album-covers {
-     position: relative;
-     float: right;
+     padding-top: 100px;
+     position: absolute;
  } 
  
  .collection-album-container {
@@ -19,6 +19,11 @@ body.collection {
  
  .collection-album-container .caption {
      margin-top: 10px;
+     text-align: left;
+     background: grey;
+     border: 2px solid dark grey;
+     padding: 1px;
+     padding-left: 60px;
  }
  
  .collection-album-container .caption p {
@@ -34,7 +39,8 @@ body.collection {
  .collection-album-container .caption p a.album-name {
      color: white;
  }
- 
+
  .collection-album-container img {
-     width: 80%;
+     width: 100%;
+     border: 5px solid gray;
  }

@@ -133,7 +133,6 @@ bJams.service("SongPlayer", function(albumService){
             return this.currentlyPlayingSongNumber;
         },
         getCurrentSongFromAlbum: function(){
-            //
             return this.currentSongFromAlbum;
         },
         setCurrentAlbum: function(artist){

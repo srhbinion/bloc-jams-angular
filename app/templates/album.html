@@ -7,8 +7,12 @@
 <!-- ==========================Current Album - Details=========================== --> 
         <div class="album-view-details column half">
             <h1>Song Info Section:</h1>
+            <div ng-repeat="album in albums">
+            <!-- call setCurrentAlbum in album controller and pass in the artist's name -->
+            <h3 class="album-view-artist" ng-click="setCurrentAlbum(album.artist)">Artist:{{album.artist}}</h3>
+            </div>
             <h2 class="album-view-title">Name:{{album.name}}</h2>
-            <h3 class="album-view-artist">Artist:{{album.artist}}</h3>
+            <h3 class="album-view-artist">{{setAlbum.artist}}</h3>
             <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
         </div>
     </section>
