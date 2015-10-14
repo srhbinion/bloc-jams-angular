@@ -117,6 +117,11 @@ bJams.service("SongPlayer", function(albumService){
             //
             return this.currentSongFromAlbum;
         },
+        setCurrentAlbum: function(){
+            // selects album
+            this.albumData[albumService.data];
+        },
+/**
         isSongPaused: function(){
             //check if a song is playing and is in a paused state
             return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
@@ -124,12 +129,6 @@ bJams.service("SongPlayer", function(albumService){
         isSongPlaying: function(){
             //checks if a song is playing and not just paused.
             return (this.currentSoundFile && !this.currentSoundFile.isPaused());
-            
-        },
-        
-        setCurrentAlbum: function(){
-            // selects album
-            this.albumData[albumService.data];
         },
         getSong: function(){
             //find out current song
@@ -197,5 +196,6 @@ bJams.service("SongPlayer", function(albumService){
                 this.currentSoundFile.setVolume(volume);
             }
         }
+*/        
 	};
 });
