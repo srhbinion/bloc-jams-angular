@@ -71,10 +71,12 @@ bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scop
 }]);
 
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
-    $scope.album = SongPlayer.getCurrentAlbum();
-    console.log(SongPlayer.getAlbums());
-    console.log(SongPlayer.getCurrentAlbum());
-    console.log(SongPlayer.setCurrentAlbum()); 
+    // $scope.album = SongPlayer.setCurrentAlbum('albumMarconi');
+    $scope.albums = SongPlayer.getAlbums();
+    $scope.setCurrentAlbum = function(artist){
+        SongPlayer.setCurrentAlbum(artist);
+    }
+
 //    $scope.activeAlbum = SongPlayer.getCurrentAlbum();
 //activates the slected album 
 //    $scope.getCurrentAlbum = function($index) {
@@ -89,6 +91,7 @@ bJams.service("SongPlayer", function(albumService){
     this.currentSongFromAlbum = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
+
     //PlayPause Button Templates
 
     //Player Bar Templates
@@ -96,19 +99,32 @@ bJams.service("SongPlayer", function(albumService){
     return {
         getAlbums: function(){
             //get albums from array
-            this.albumData = albumService.getAlbums();    
+            this.albumData = albumService.getAlbums();
+            console.log(this.albumData); 
+            for (var objAlbum in this.albumData){
+                console.log(objAlbum); // name of the album, e.g. albumPicasso
+                this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
+                console.log(this[objAlbum]); // we now access an album with this.[album name]
+            }
+            console.log(this.albumMarconi); // returns data for albumMarconi
             return this.albumData;
         },
         getCurrentAlbum: function(){
             //TODO: Target spacific album in array
-            return albumService.data.albumMarconi;
+            // var albums = this.getAlbums();
+            // console.log(albums);
+            // console.log(albums.albumPicasso);
+            // console.log(albums.albumMarconi);
+            // console.log(albums.albumNow);
+            return this.albumMarconi;
         },
-        getCurrentAlbumIndex: function(){
-            return this.currentAlbumIndex;
-        },
-        setCurrentAlbumIndex: function(index){
-            this.currentAlbumIndex = index;
-        },
+        // getCurrentAlbumIndex: function(){
+
+        //     return this.currentAlbumIndex;
+        // },
+        // setCurrentAlbumIndex: function(index){
+        //     this.currentAlbumIndex = index;
+        // },
         getCurrentlyPlayingSongNumber: function(){
             //get the song number
             return this.currentlyPlayingSongNumber;
@@ -117,9 +133,18 @@ bJams.service("SongPlayer", function(albumService){
             //
             return this.currentSongFromAlbum;
         },
-        setCurrentAlbum: function(){
-            // selects album
-            this.albumData[albumService.data];
+        setCurrentAlbum: function(artist){
+            this.getAlbums(); // gets all our albums
+            console.log(artist);
+            switch (artist) {
+                case 'Pablo Picasso':
+                    console.log("Setting to Picasso");
+                    this.currentAlbum = this.albumPicasso;
+                break;
+                // add other cases for remaining artists
+            }
+
+            return this.currentAlbum;
         },
 /**
         isSongPaused: function(){

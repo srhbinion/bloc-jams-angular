@@ -1,0 +1,14 @@
+/* Bootstrap CSS */
+@import 'normalize.css';
+/* Styles for Index and Over All site */
+@import 'main.css';
+/* Styles for Landing Page */
+@import 'landing.css';
+/* Styles for Collection of Albums Page */
+@import 'collection.css';
+/* Styles for Album Player */
+@import 'album.css';
+/* Styles for Player Bar Menu */
+@import 'player_bar.css';
+
+

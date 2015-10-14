@@ -1,14 +1,16 @@
-<section class="hero-content"> <!--hero content -->
+<!-- ==============================Hero Content================================= -->  
+<section class="hero-content"> 
     <h1 class="hero-title">{{welcome}}</h1>
 </section>
 <section>
-    <!-- TPDO: find function animation to make container rise-up --> 
-    <div class="container" ng-controller="LandingController">
+<!-- ==============================Supporting Content================================= -->  
+    <!-- TODO: find function animation to make container rise-up --> 
+    <div class="container">
         <div class="selling-points container" ng-repeat="actionItems in point.actionItems">
-            <span class="{{point.actionItems[$index].icon}}"></span> <!--icon -->
+            <!--icon -->
+            <span class="{{point.actionItems[$index].icon}}"></span> 
             <h4 class="point-title">{{point.actionItems[$index].title}}</h4>
             <p class="point-description">{{point.actionItems[$index].description}}</p>
         </div>
     </div>
 </section>
-

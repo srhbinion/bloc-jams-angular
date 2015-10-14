@@ -5,6 +5,7 @@ body.album {
     background-position: center center;
     background-size: cover;
     padding-bottom: 150px;
+    padding-top: 150px;
 }
 
 .album-cover-art {
@@ -41,10 +42,9 @@ body.album {
     font-weight: 300;
     font-size: 0.75em;
 }
-
-.album-view-song-item {
+.album-song-listing {
     height: 3rem;
-    /*line under song list*/ 
+    /*line under song list-test*/ 
     border-bottom: 1px solid rgba(255,255,255,0.5);
 }
 

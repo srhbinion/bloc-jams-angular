@@ -15,12 +15,24 @@ body {
 }
 
 .navbar {
-    position: relative;
+    position: fixed;
+    width: 100%;
+    border: 1 solid black;
     padding: 0.5rem;
     /* rgba = supports transparency*/
     background-color: rgba(101,18,95,0.5);
     /*adds a third dimension to the placement of an element */
-    z-index: 1;
+    z-index: 100;
+}
+
+.player-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: rgba(255,255,255,0.3);
+    z-index: 100:
 }
 
 .navbar .logo {

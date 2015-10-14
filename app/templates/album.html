@@ -7,13 +7,17 @@
 <!-- ==========================Current Album - Details=========================== --> 
         <div class="album-view-details column half">
             <h1>Song Info Section:</h1>
-            <h2 class="album-view-title">Name:{{SongPlayer.getCurrentAlbum().name}}</h2>
-            <h3 class="album-view-artist">{{$scope.setAlbum.artist}}</h3>
-            <h5 class="album-view-release-info">{{$rootScope.album.year}} {{$rootScope.album.label}}</h5>
+            <div ng-repeat="album in albums">
+                <!-- call setCurrentAlbum in album controller and pass in the artist's name -->
+                <div ng-click="setCurrentAlbum(album.artist)">{{album.artist}}</div>
+            </div>
+            <h2 class="album-view-title">Name:{{ album.name }}</h2>
+            <h3 class="album-view-artist">{{setAlbum.artist}}</h3>
+            <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
         </div>
     </section>
 <!-- ==========================Current Album - Song List=========================== --> 
-    <table class="album-song-listing"> <!--ng-repeat="song in album.song" -->
+    <table class="album-song-listing"> <!--ng-repeat="song in album.songs" -->
         <thead>
             <tr>
             </tr>

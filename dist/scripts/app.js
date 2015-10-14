@@ -1,8 +1,8 @@
 // named the app and set the angular function. Array displays what will be passes though the app.
-var bJams = angular.module("bJams",["ui.router"]);
+var bJams = angular.module("bJams", ["ui.router"]);
 
 /**
- * Configuration for the angular site views
+ * Configuration for the angular site views and linking the controllers
  * @param  {function} $stateProvider    - html code for displaying differnt views
  * @param  {function} $locationProvider)  - removes errors and hashbangs from address
  */
@@ -36,11 +36,10 @@ bJams.config(function($stateProvider, $locationProvider) {
 			templateUrl:"/templates/album.html"
 		});
 });
-
 /**
  * Controls the landing view
  * @return {welcome}  - Hero Text
- * @return {actionItems}  - Array with call-to-action items
+ * @return {actionItems}  - Establishes the array with call-to-action containers
  */
 bJams.controller("LandingController", function($scope) {
 	$scope.welcome = "Turn the music up!";
@@ -64,35 +63,164 @@ bJams.controller("LandingController", function($scope) {
 			}
 		]
 	};
-
-	//code from foundation 23. TODO: Animating 3 "selling points" when page scrolls.
-	window.onload = function(){
-		var sellingPoints = document.getElementsByClassName("sellingPoints")[0];
-		var scrollDistance = sellingPoints.getBoundClientRect().top - window.innerHeight + 200;
-
-		if(window.innerHeight > 950){
-			animatePoints(pointsArray);
-		}
-
-		window.addEventListener("scroll", function(event){
-			if (document.body.scrollTop >= scrollDistance){
-				animate.Points(pointsArray);
-			}
-		});
-	};
 });
 
-bJams.controller("CollectionController", ["$scope", function($scope) {
-//texting purpose
-	$scope.albums = [albumPicasso, albumMarconi, albumWarhol, albumNow];
-        
-    $scope.setAlbum = function($index) {
-    	currentAlbum = $scope.albums[$index];
-    };
+bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
+	//defines page array details with album information
+	$scope.albums = SongPlayer.getAlbums();
 }]);
 
-bJams.controller("AlbumController", ["$scope", function($scope) {
-	$scope.album = currentAlbum;
+bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
+    // $scope.album = SongPlayer.setCurrentAlbum('albumMarconi');
+    $scope.albums = SongPlayer.getAlbums();
+    $scope.setCurrentAlbum = function(artist){
+        SongPlayer.setCurrentAlbum(artist);
+    }
+
+//    $scope.activeAlbum = SongPlayer.getCurrentAlbum();
+//activates the slected album 
+//    $scope.getCurrentAlbum = function($index) {
+//    	SongPlayer.getCurrentAlbum($index);
+//    };
 }]);
 
-var currentAlbum = null;
+bJams.service("SongPlayer", function(albumService){
+	//Song status - default state
+    this.currentAlbum = null;
+    this.currentlyPlayingSongNumber = null;
+    this.currentSongFromAlbum = null;
+    this.currentSoundFile = null;
+    this.currentVolume = 80;
+
+    //PlayPause Button Templates
+
+    //Player Bar Templates
+    
+    return {
+        getAlbums: function(){
+            //get albums from array
+            this.albumData = albumService.getAlbums();
+            console.log(this.albumData); 
+            for (var objAlbum in this.albumData){
+                console.log(objAlbum); // name of the album, e.g. albumPicasso
+                this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
+                console.log(this[objAlbum]); // we now access an album with this.[album name]
+            }
+            console.log(this.albumMarconi); // returns data for albumMarconi
+            return this.albumData;
+        },
+        getCurrentAlbum: function(){
+            //TODO: Target spacific album in array
+            // var albums = this.getAlbums();
+            // console.log(albums);
+            // console.log(albums.albumPicasso);
+            // console.log(albums.albumMarconi);
+            // console.log(albums.albumNow);
+            return this.albumMarconi;
+        },
+        // getCurrentAlbumIndex: function(){
+
+        //     return this.currentAlbumIndex;
+        // },
+        // setCurrentAlbumIndex: function(index){
+        //     this.currentAlbumIndex = index;
+        // },
+        getCurrentlyPlayingSongNumber: function(){
+            //get the song number
+            return this.currentlyPlayingSongNumber;
+        },
+        getCurrentSongFromAlbum: function(){
+            //
+            return this.currentSongFromAlbum;
+        },
+        setCurrentAlbum: function(artist){
+            this.getAlbums(); // gets all our albums
+            console.log(artist);
+            switch (artist) {
+                case 'Pablo Picasso':
+                    console.log("Setting to Picasso");
+                    this.currentAlbum = this.albumPicasso;
+                break;
+                // add other cases for remaining artists
+            }
+
+            return this.currentAlbum;
+        },
+/**
+        isSongPaused: function(){
+            //check if a song is playing and is in a paused state
+            return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
+        },
+        isSongPlaying: function(){
+            //checks if a song is playing and not just paused.
+            return (this.currentSoundFile && !this.currentSoundFile.isPaused());
+        },
+        getSong: function(){
+            //find out current song
+            return this.getCurrentSongFromAlbum;
+        },
+        setSong: function(songNumber){
+            this.getCurrentlyPlayingSongNumber = songNumber;
+            if (this.currentSoundFile){
+                this.currentSoundFile.stop();
+                //updateSeekBarWhileSongPlays
+            }
+            this.currentlyPlayingSongNumber = songNumber;
+            this.currentSongFromAlbum = this.currentAlbum.songs[songNumber-1];
+            // Assign a Buzz object. Pass audio file though current song from Album object.
+            this.currentSoundFile = new buzz.sound(this.currentSongFromAlbum.audioUrl, {
+                // Mp3 to start playing ASAP.
+                formats: ["mp3"],
+                preload: true
+            });
+            //volume
+            this.getVolume(this.currentVolume);
+        },
+        previousSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+            var prevSongIndex = (currentSongIndex -1);
+            
+            if (currentSongIndex < 0){
+                prevSongIndex = (this.currentAlbum.song.length - 1);
+            }
+            this.setSong(prevSongIndex + 1);
+        },
+        nextSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+            var nextSongIndex = (currentSongIndex + 1);
+            if(nextSongIndex >= this.currentAlbum.song.length){
+                nextSongIndex = 0;
+            }
+            this.setSong(nextSongIndex + 1);
+        },
+        play: function(){
+            if(this.isSongPaused()) {
+                this.currentSoundFile.play();}
+        },
+		pause: function(){
+            if(this.isSongPlaying()){
+                this.currentSoundFile.pause();}
+        },
+        getTimePosition: function(){
+            return this.currentSoundFile.getTime();
+        },
+        setTimePosition: function(){
+            if (this.currentSoundFile) {
+                this.currentSoundFile.setTime();
+            }
+        },
+        getVolume: function(){
+            // finds out current volume
+            return this.currentVolume;
+        },
+        setVolume: function(volume){
+            //if there is a sound file it sets the volume
+            this.currentVolume = volume;
+            
+            if (this.currentSoundFile) {
+                this.currentSoundFile.setVolume(volume);
+            }
+        }
+*/        
+	};
+});
