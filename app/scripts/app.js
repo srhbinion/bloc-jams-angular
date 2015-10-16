@@ -132,19 +132,19 @@ bJams.service("SongPlayer", function(albumService){
             cosole.log(artist);
             switch (artist) {
                 case "Pablo Picasso":
-                    console.log ("Setting to Picasso);
+                    console.log ("Setting to Picasso");
                     this.getCurrentAlbum = this.albumPicasso;
                 break;
                 case "Guglielmo Marconi":
-                    console.log ("Setting to Marconi);
+                    console.log ("Setting to Marconi");
                     this.getCurrentAlbum = this.albumMarconi;
                 break;
                 case "Andrew Warhol":
-                    console.log ("Setting to Warhol);
+                    console.log ("Setting to Warhol");
                     this.getCurrentAlbum = this.albumWarhol;
                 break;
                 case "BackStreet Boys":
-                    console.log ("Setting to Now);
+                    console.log ("Setting to Now");
                     this.getCurrentAlbum = this.albumNow;
                 break;
                 default:
