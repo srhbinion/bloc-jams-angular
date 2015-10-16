@@ -10,11 +10,11 @@
             <p>
                 <!--Album Name - Link to album page-->
                 <a class="album-name" ui-sref="album">
-                    {{ $index + 1 }}. {{album.name}}
+                    <span>{{ $index + 1 }}.</span>{{album.name}}
                 </a><br>
                 <!--Artist Name - Link to album page-->
                 <a ui-sref="album">{{album.artist}}</a><br> 
-                <!--Song File length-->
+                <!--Song File List Length-->
                 Play List Length: <a class="album-length">{{album.songs.length}}</a>
             </p> 
         </div>

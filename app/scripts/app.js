@@ -1,4 +1,4 @@
-// named the app and set the angular function. Array displays what will be passes though the app.
+// Establishes AngularJS -- Named the app and set the angular function
 var bJams = angular.module("bJams", ["ui.router"]);
 
 /**
@@ -9,27 +9,25 @@ var bJams = angular.module("bJams", ["ui.router"]);
 bJams.config(function($stateProvider, $locationProvider) {
 	//configure an application's path
 	$locationProvider.html5Mode({
-        //disables hashbangs in URL - TODO: need to change to true after testing
+        //Disables hashbangs in URL
         enabled: true,
         //avoids common $location errors
         requireBase: false
     });
-	//sets up an address for each template state
+	//State Provider - sets up an address for each template state
 	$stateProvider
 		.state("landing",{
-			// properties of the state
+			// properties of the state listed in "controller"
 			url: "/",
 			controller:"LandingController",
 			templateUrl:"/templates/landing.html"
 		})
 		.state("collection",{
-			// properties of the state
 			url: "/collection",
 			controller: "CollectionController",
 			templateUrl:"/templates/collection.html"
 		})
 		.state("album",{
-			// properties of the state
 			url: "/album",
 			controller:"AlbumController",
 			templateUrl:"/templates/album.html"
@@ -64,18 +62,27 @@ bJams.controller("LandingController", function($scope) {
 	};
 });
 
+/**
+ * Controls the Collection view
+ * @return {service}  - get the file someone clicked on as the current file.
+ * @return {function}  - Establishes the selected album as the one that was clicked on.
+ */
 bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
 	//defines page array details with album information
 	$scope.albums = SongPlayer.getAlbums();
+    //Tells the album view which album you want to see.
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
     };
 }]);
 
+/**
+ * Controls the album view
+ * @return {service}  - get the file someone clicked on as the current file.
+ * @return {function}  - Establishes the selected album as the one that was clicked on.
+ */
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
-    //use album Marconi as a place holder
-//    $scope.artist = null;
     $scope.album = SongPlayer.getCurrentAlbum();
     console.log($scope.album);
     $scope.setCurrentAlbum = function(artist){
@@ -169,6 +176,16 @@ bJams.service("SongPlayer", function(albumService){
             //checks if a song is playing and not just paused.
             return (this.currentSoundFile && !this.currentSoundFile.isPaused());
         },
+        play: function(){
+//            if(this.isSongPaused()) {
+//                this.currentSoundFile.play();}
+            console.log("Play");
+        },
+		pause: function(){
+//            if(this.isSongPlaying()){
+//                this.currentSoundFile.pause();}
+            console.log("pause");
+        },
         /*
         getSong: function(){
             //find out current song
@@ -207,18 +224,7 @@ bJams.service("SongPlayer", function(albumService){
                 nextSongIndex = 0;
             }
             this.setSong(nextSongIndex + 1);
-        },*/
-        play: function(){
-//            if(this.isSongPaused()) {
-//                this.currentSoundFile.play();}
-            console.log("Play");
         },
-		pause: function(){
-//            if(this.isSongPlaying()){
-//                this.currentSoundFile.pause();}
-            console.log("pause");
-        },
-        /*
         getTimePosition: function(){
             return this.currentSoundFile.getTime();
         },

@@ -1,28 +1,26 @@
 <!-- ==============================Current Album================================= -->  
 <main class="album-view container narrow"> 
     <section class="clearfix">
+        <!-- ==========================Current Album - Details=========================== --> 
+        <!--Album Artwork -->
         <div class="column half">
-            <img ng-src="{{albumService.albumArtUrl}}" class="album-cover-art">
+            <img ng-src="{{album.albumArtUrl}}" class="album-cover-art">
         </div>
-<!-- ==========================Current Album - Details=========================== --> 
-        <div class="album-view-details column half">
-            <h1>Song Info Section:</h1>
-            <div ng-repeat="album in albums">
-            <!-- call setCurrentAlbum in album controller and pass in the artist's name -->
-            <h3 class="album-view-artist" ng-click="setCurrentAlbum(album.artist)">Artist:{{album.artist}}</h3>
-            </div>
-            <h2 class="album-view-title">Name:{{album.name}}</h2>
-            <h3 class="album-view-artist">{{setAlbum.artist}}</h3>
+        <!--Album Details - click sets the album page-->
+        <div class="album-view-details column half" ng-click="setCurrentAlbum(album.artist)">
+            <h3 class="album-view-artist" >{{album.artist}}</h3>
+            <h2 class="album-view-title">{{album.name}}</h2>
             <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
         </div>
     </section>
-<!-- ==========================Current Album - Song List=========================== --> 
+    <!-- ==========================Current Album - Song List=========================== --> 
     <table class="album-song-listing" ng-repeat="song in album.songs"> 
         <thead>
             <tr>
             </tr>
         </thead>
         <tbody>
+            <!--Song List template -->
             <tr>
                 <td class="song-item-number">{{$index + 1}}</td>
                 <td class="song-item-title">{{song.name}}</td>
@@ -35,17 +33,19 @@
 <section class="player-bar"> 
     <div class="container">
         <div class ="player-bar-control-group left-controls">   
-            <a class="previous" ng-click="previousSong()">
+            <!--TODO: ng-click="previousSong()" Fix in SongPlayer Service-->
+            <a class="previous">
                 <span class="ion-skip-backward"></span>
             </a>
             <a class="play-pause" ng-click="changeState()">
                 <span class="ion-play"></span>
             </a>
-            <a class="next" ng-click="nextSong()">
+            <!--TODO: ng-click="nextSong()" Fix in SongPlayer Service-->
+            <a class="next">
                 <span class="ion-skip-forward"></span>
             </a>
         </div>
-<!-- ==========================Player Bar - Current Song=========================== --> 
+        <!-- ==========================Player Bar - Current Song=========================== --> 
         <div class="player-bar-control-group currently-playing"> 
             <h2 class="song-name"></h2>
             <h2 class="artist-song-mobile"></h2>
@@ -59,7 +59,7 @@
             </div>
             <h3 class="artist-name"></h3>
         </div>
-<!-- ==========================Player Bar - Volume=========================== --> 
+        <!-- ==========================Player Bar - Volume=========================== --> 
         <div class="player-bar-control-group right-controls"> 
             <div class="volume">
                 <span class="ion-volume-high"></span>
