@@ -3,17 +3,19 @@
 	<!--Template Container that repeats-->
 	<div class="collection-album-container column fouth" ng-repeat="album in albums">
 		<!--Cover Art image - Link to Album Page -->
-		<a ui-sref="album"> 
+		<a ui-sref="album" ng-click="setCurrentAlbum(album.artist)"> 
 			<img ng-src="{{album.albumArtUrl}}"> <!---->
 		</a>
-        <div class="collection-album-info caption">
+        <div class="collection-album-info caption" ng-click="setCurrentAlbum(album.artist)">
             <p>
                 <!--Album Name - Link to album page-->
-                <a class="album-name" ui-sref="album" ng-click="setAlbum($index)">{{album.name}}</a><br>
+                <a class="album-name" ui-sref="album">
+                    {{ $index + 1 }}. {{album.name}}
+                </a><br>
                 <!--Artist Name - Link to album page-->
-                <a ui-sref="album" ng-click="setAlbum($index)">{{album.artist}}</a><br> 
+                <a ui-sref="album">{{album.artist}}</a><br> 
                 <!--Song File length-->
-                Play List Length: <a class="album-length" ng-click="setAlbum($index)">{{album.songs.length}}</a>
+                Play List Length: <a class="album-length">{{album.songs.length}}</a>
             </p> 
         </div>
 	</div>

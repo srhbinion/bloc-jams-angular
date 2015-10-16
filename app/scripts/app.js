@@ -67,16 +67,33 @@ bJams.controller("LandingController", function($scope) {
 bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
 	//defines page array details with album information
 	$scope.albums = SongPlayer.getAlbums();
+    $scope.setCurrentAlbum = function(artist){
+        SongPlayer.setCurrentAlbum(artist);
+        $scope.artist = artist;
+    };
 }]);
 
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
     //use album Marconi as a place holder
-    $scope.albums = SongPlayer.getAlbums();
+//    $scope.artist = null;
+    $scope.album = SongPlayer.getCurrentAlbum();
+    console.log($scope.album);
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
+        $scope.artist = artist;
     };
-    console.log(SongPlayer.getAlbums(artist));
-    console.log(SongPlayer.setCurrentAlbum());  
+//    console.log(SongPlayer.getAlbums());
+//    console.log(SongPlayer.setCurrentAlbum($scope.artist));  
+    
+    // play controls
+    $scope.changeState = function (){
+        if (SongPlayer.isSongPlaying){
+            SongPlayer.pause();
+        }
+        else {
+            SongPlayer.play();
+        }
+    }
 }]);
 
 bJams.service("SongPlayer", function(albumService){
@@ -96,20 +113,13 @@ bJams.service("SongPlayer", function(albumService){
                 //console.log(objAlbum);
                 this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
                 //access album with this
-                console.log(this[objAlbum]);
+                //console.log(this[objAlbum]);
             };
             //console.log(this.albumMarconi);
             return this.albumData;
         },
         getCurrentAlbum: function(){
-            //TODO: Target spacific album in array
-            // var albums = this.getAlbums();
-            //console.log(albums);
-            //console.log(albums.albumPicasso);
-            //console.log(albums.albumMarconi);
-            //console.log(albums.albumNow);
-            //return albumService.data.
-            return this.albumMarconi;
+            return this.currentAlbum;
         },
         /** 
         getCurrentAlbumIndex: function(){
@@ -127,32 +137,30 @@ bJams.service("SongPlayer", function(albumService){
             return this.currentSongFromAlbum;
         },
         setCurrentAlbum: function(artist){
-            // selects album
-            this.getAlbum();
-            cosole.log(artist);
+            console.log(artist);
             switch (artist) {
                 case "Pablo Picasso":
                     console.log ("Setting to Picasso");
-                    this.getCurrentAlbum = this.albumPicasso;
+                    this.currentAlbum = this.albumPicasso;
                 break;
                 case "Guglielmo Marconi":
                     console.log ("Setting to Marconi");
-                    this.getCurrentAlbum = this.albumMarconi;
+                    this.currentAlbum = this.albumMarconi;
                 break;
                 case "Andrew Warhol":
                     console.log ("Setting to Warhol");
-                    this.getCurrentAlbum = this.albumWarhol;
+                    this.currentAlbum = this.albumWarhol;
                 break;
                 case "BackStreet Boys":
                     console.log ("Setting to Now");
-                    this.getCurrentAlbum = this.albumNow;
+                    this.currentAlbum = this.albumNow;
                 break;
                 default:
                     console.log ("Is there anything else you'd like?");              
             };
-            //return this.currentAlbum;
+            return this.currentAlbum;
         },
-/**
+
         isSongPaused: function(){
             //check if a song is playing and is in a paused state
             return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
@@ -161,6 +169,7 @@ bJams.service("SongPlayer", function(albumService){
             //checks if a song is playing and not just paused.
             return (this.currentSoundFile && !this.currentSoundFile.isPaused());
         },
+        /*
         getSong: function(){
             //find out current song
             return this.getCurrentSongFromAlbum;
@@ -198,15 +207,18 @@ bJams.service("SongPlayer", function(albumService){
                 nextSongIndex = 0;
             }
             this.setSong(nextSongIndex + 1);
-        },
+        },*/
         play: function(){
-            if(this.isSongPaused()) {
-                this.currentSoundFile.play();}
+//            if(this.isSongPaused()) {
+//                this.currentSoundFile.play();}
+            console.log("Play");
         },
 		pause: function(){
-            if(this.isSongPlaying()){
-                this.currentSoundFile.pause();}
+//            if(this.isSongPlaying()){
+//                this.currentSoundFile.pause();}
+            console.log("pause");
         },
+        /*
         getTimePosition: function(){
             return this.currentSoundFile.getTime();
         },
