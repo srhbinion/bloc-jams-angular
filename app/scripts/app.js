@@ -64,8 +64,8 @@ bJams.controller("LandingController", function($scope) {
 
 /**
  * Controls the Collection view
- * @return {service}  - get the file someone clicked on as the current file.
- * @return {function}  - Establishes the selected album as the one that was clicked on.
+ * @return {service}  - Allows the Songplayer service to be used on this page.
+ * @return {function}  - Establishes the selected album as the one that was "clicked on".
  */
 bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
 	//defines page array details with album information
@@ -83,16 +83,14 @@ bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scop
  * @return {function}  - Establishes the selected album as the one that was clicked on.
  */
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
+    //defines page array details with album information
     $scope.album = SongPlayer.getCurrentAlbum();
-    console.log($scope.album);
+    //Tells the album view which album you want to see.
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
     };
-//    console.log(SongPlayer.getAlbums());
-//    console.log(SongPlayer.setCurrentAlbum($scope.artist));  
-    
-    // play controls
+    // play/pause controls
     $scope.changeState = function (){
         if (SongPlayer.isSongPlaying){
             SongPlayer.pause();
@@ -100,7 +98,7 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
         else {
             SongPlayer.play();
         }
-    }
+    };
 }]);
 
 bJams.service("SongPlayer", function(albumService){
@@ -114,27 +112,16 @@ bJams.service("SongPlayer", function(albumService){
     return {
         getAlbums: function(){
             this.albumData = albumService.getAlbums();
-            //console.log(this.albumData);
             //for each instance in features.js factory
             for(var objAlbum in this.albumData){ //name of album
                 //console.log(objAlbum);
                 this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
-                //access album with this
-                //console.log(this[objAlbum]);
             };
-            //console.log(this.albumMarconi);
             return this.albumData;
         },
         getCurrentAlbum: function(){
             return this.currentAlbum;
         },
-        /** 
-        getCurrentAlbumIndex: function(){
-            return this.currentAlbumIndex;
-        },
-        setCurrentAlbumIndex: function(index){
-            this.currentAlbumIndex = index;
-        }, */
         getCurrentlyPlayingSongNumber: function(){
             //get the song number
             return this.currentlyPlayingSongNumber;
@@ -167,7 +154,6 @@ bJams.service("SongPlayer", function(albumService){
             };
             return this.currentAlbum;
         },
-
         isSongPaused: function(){
             //check if a song is playing and is in a paused state
             return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
