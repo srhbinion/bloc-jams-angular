@@ -71,18 +71,12 @@ bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scop
 
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
     //use album Marconi as a place holder
-    //$scope.album = SongPlayer.setCurrentAlbum("albumMarconi");
     $scope.albums = SongPlayer.getAlbums();
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
     };
     console.log(SongPlayer.getAlbums(artist));
-    console.log(SongPlayer.setCurrentAlbum()); 
-    /** attempts
-    $scope.activeAlbum = SongPlayer.getCurrentAlbum(); 
-    $scope.getCurrentAlbum = function($index) {
-        SongPlayer.getCurrentAlbum($index);
-    }; */
+    console.log(SongPlayer.setCurrentAlbum());  
 }]);
 
 bJams.service("SongPlayer", function(albumService){
@@ -95,29 +89,25 @@ bJams.service("SongPlayer", function(albumService){
     
     return {
         getAlbums: function(){
-            //get albums from array
             this.albumData = albumService.getAlbums();
             //console.log(this.albumData);
             //for each instance in features.js factory
-            for(var objAlbum in this.albumData){
-                //name of album
+            for(var objAlbum in this.albumData){ //name of album
                 //console.log(objAlbum);
-                //assign album data to this.some
-                this[objAlbum] = this.albumData[objAlbum];
+                this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
                 //access album with this
-                //console.log(this[objAlbum]);
+                console.log(this[objAlbum]);
             };
-            console.log(this.albumMarconi);
+            //console.log(this.albumMarconi);
             return this.albumData;
         },
         getCurrentAlbum: function(){
             //TODO: Target spacific album in array
             // var albums = this.getAlbums();
-            console.log(albums);
+            //console.log(albums);
             //console.log(albums.albumPicasso);
             //console.log(albums.albumMarconi);
             //console.log(albums.albumNow);
-            
             //return albumService.data.
             return this.albumMarconi;
         },
@@ -131,6 +121,7 @@ bJams.service("SongPlayer", function(albumService){
         getCurrentlyPlayingSongNumber: function(){
             //get the song number
             return this.currentlyPlayingSongNumber;
+            console.log(currentlyPlayingSongNumber);
         },
         getCurrentSongFromAlbum: function(){
             return this.currentSongFromAlbum;
@@ -139,6 +130,26 @@ bJams.service("SongPlayer", function(albumService){
             // selects album
             this.getAlbum();
             cosole.log(artist);
+            switch (artist) {
+                case "Pablo Picasso":
+                    console.log ("Setting to Picasso);
+                    this.getCurrentAlbum = this.albumPicasso;
+                break;
+                case "Guglielmo Marconi":
+                    console.log ("Setting to Marconi);
+                    this.getCurrentAlbum = this.albumMarconi;
+                break;
+                case "Andrew Warhol":
+                    console.log ("Setting to Warhol);
+                    this.getCurrentAlbum = this.albumWarhol;
+                break;
+                case "BackStreet Boys":
+                    console.log ("Setting to Now);
+                    this.getCurrentAlbum = this.albumNow;
+                break;
+                default:
+                    console.log ("Is there anything else you'd like?");              
+            };
             //return this.currentAlbum;
         },
 /**
