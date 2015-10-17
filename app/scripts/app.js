@@ -68,9 +68,9 @@ bJams.controller("LandingController", function($scope) {
  * @return {function}  - Establishes the selected album as the one that was "clicked on".
  */
 bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scope, SongPlayer) {
-	//defines page array details with album information
+	//Defines page array details with album.js information
 	$scope.albums = SongPlayer.getAlbums();
-    //Tells the album view which album you want to see.
+    //Tells the album view which album you want to see
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
@@ -79,7 +79,7 @@ bJams.controller("CollectionController", ["$scope", "SongPlayer", function($scop
 
 /**
  * Controls the album view
- * @return {service}  - get the file someone clicked on as the current file.
+ * @return {service}  - sets the file clicked on as the current file
  * @return {function}  - Establishes the selected album as the one that was clicked on.
  */
 bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, SongPlayer){
@@ -110,26 +110,31 @@ bJams.service("SongPlayer", function(albumService){
     this.currentVolume = 80;
     
     return {
+        // Gets data from fixtures.js to run in the service
         getAlbums: function(){
             this.albumData = albumService.getAlbums();
             //for each instance in features.js factory
             for(var objAlbum in this.albumData){ //name of album
-                //console.log(objAlbum);
-                this[objAlbum] = this.albumData[objAlbum]; //assigning album data to this.something
+                //assigning album data to this.something
+                this[objAlbum] = this.albumData[objAlbum];  
             };
+            //returns an array of objects
             return this.albumData;
         },
+        //Gets the current album information and attaches it to the songplayer function in the controllers.
         getCurrentAlbum: function(){
             return this.currentAlbum;
         },
+        //Gets and updates the song number
         getCurrentlyPlayingSongNumber: function(){
             //get the song number
             return this.currentlyPlayingSongNumber;
-            console.log(currentlyPlayingSongNumber);
         },
+        //Gets and establishes the current song.
         getCurrentSongFromAlbum: function(){
             return this.currentSongFromAlbum;
         },
+        //Sets the album by matching the artist names. If larger group of information may want to switch to a loop statement. This function is attached to the directive in album.html
         setCurrentAlbum: function(artist){
             console.log(artist);
             switch (artist) {
@@ -150,10 +155,11 @@ bJams.service("SongPlayer", function(albumService){
                     this.currentAlbum = this.albumNow;
                 break;
                 default:
-                    console.log ("Is there anything else you'd like?");              
+                    console.log ("Is there anything else you'd like?"); 
             };
             return this.currentAlbum;
         },
+        //TODO: Currently these only console text. Set play/pause function up to grab music
         isSongPaused: function(){
             //check if a song is playing and is in a paused state
             return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
@@ -172,7 +178,7 @@ bJams.service("SongPlayer", function(albumService){
 //                this.currentSoundFile.pause();}
             console.log("pause");
         },
-        /*
+        /* TODO: Refactor old code below to expand this service to play music and control volume. 
         getSong: function(){
             //find out current song
             return this.getCurrentSongFromAlbum;
