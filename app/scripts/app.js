@@ -109,6 +109,11 @@ bJams.service("SongPlayer", function(albumService){
     this.currentSoundFile = null;
     this.currentVolume = 80;
     
+    var playButtonTemplate = "<a class=\"album-song-button\"><span class=\"ion-play\"></span></a>";
+    var pauseButtonTemplate = "<a class=\"album-song-button\"><span class=\"ion-pause\"></span></a>";
+    var playerBarPlayButton = "<span class=\"ion-play\"></span>";
+    var playerBarPauseButton = "<span class=\"ion-pause\"></span>";
+    
     return {
         // Gets data from fixtures.js to run in the service
         getAlbums: function(){
