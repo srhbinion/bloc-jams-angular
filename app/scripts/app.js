@@ -46,7 +46,7 @@ bJams.controller("LandingController", function($scope) {
 			{
 				icon: "ion-iphone",
 				title: "Mobile enabled",
-				description: "Listen to your music on the go. This streaming service is available on all mobile platforms."
+				description: "Listen to your music on the go. Available on all mobile platforms."
 			},
 			{
 				icon: "ion-radio-waves",
@@ -56,11 +56,33 @@ bJams.controller("LandingController", function($scope) {
 			{
 				icon: "ion-music-note",
 				title: "Choose your music",
-				description: "The world is full of music; why should you have to listen to music that someone else chose?"
+				description: "The world is full of music. Listen to everything."
 			}
 		]
 	};
 });
+
+bJams.directive("actionPointsRiseUp",["$window", function($window){
+    var animatePoints = function(point){
+        angular.element(point).css({
+            opacity: 1,
+            transform: "scaleX(1) translateY(0)"
+        });
+    };
+    var testAnimate = function(){
+        console.log("On the right track here.");
+    };
+    
+    return {
+        restrict: "E",
+        link: function(scope, element, attributes){
+          element.on("mousedown", function(event){
+              $window.on(testAnimate);
+          });  
+        
+        }
+    };
+}]);
 
 /**
  * Controls the Collection view
@@ -103,21 +125,23 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
 
 bJams.service("SongPlayer", function(albumService){
 	//Song status - default state
+    this.currentAlbumIndex = null;
     this.currentAlbum = null;
     this.currentlyPlayingSongNumber = null;
     this.currentSongFromAlbum = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
-    
+  
     return {
         // Gets data from fixtures.js to run in the service
         getAlbums: function(){
             this.albumData = albumService.getAlbums();
+            var objAlbum = null;
             //for each instance in features.js factory
-            for(var objAlbum in this.albumData){ //name of album
+            for(objAlbum in this.albumData){ //name of album
                 //assigning album data to this.something
                 this[objAlbum] = this.albumData[objAlbum];  
-            };
+            }
             //returns an array of objects
             return this.albumData;
         },
@@ -156,7 +180,7 @@ bJams.service("SongPlayer", function(albumService){
                 break;
                 default:
                     console.log ("Is there anything else you'd like?"); 
-            };
+            }
             return this.currentAlbum;
         },
         //TODO: Currently these only console text. Set play/pause function up to grab music
@@ -169,8 +193,8 @@ bJams.service("SongPlayer", function(albumService){
             return (this.currentSoundFile && !this.currentSoundFile.isPaused());
         },
         play: function(){
-//            if(this.isSongPaused()) {
-//                this.currentSoundFile.play();}
+           if(this.isSongPaused()) {
+                this.currentSoundFile.play();}
             console.log("Play");
         },
 		pause: function(){
@@ -178,6 +202,20 @@ bJams.service("SongPlayer", function(albumService){
 //                this.currentSoundFile.pause();}
             console.log("pause");
         },
+        getSong: function(){
+            //find out current song
+            console.log("I'm finding out the current song in: ");
+            //return this.getCurrentSongFromAlbum; 
+        },
+        setSong: function(){
+            //currentSongFromAlbum
+            console.log("songNumber");
+            //getCurrentlyPlayingSongNumber
+            var currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl,{
+                formats: ["mp3"],
+                preload: true
+            });
+        }
         /* TODO: Refactor old code below to expand this service to play music and control volume. 
         getSong: function(){
             //find out current song
@@ -185,21 +223,27 @@ bJams.service("SongPlayer", function(albumService){
         },
         setSong: function(songNumber){
             this.getCurrentlyPlayingSongNumber = songNumber;
+            
             if (this.currentSoundFile){
                 this.currentSoundFile.stop();
                 //updateSeekBarWhileSongPlays
             }
+            
             this.currentlyPlayingSongNumber = songNumber;
+            
             this.currentSongFromAlbum = this.currentAlbum.songs[songNumber-1];
+            
             // Assign a Buzz object. Pass audio file though current song from Album object.
             this.currentSoundFile = new buzz.sound(this.currentSongFromAlbum.audioUrl, {
                 // Mp3 to start playing ASAP.
                 formats: ["mp3"],
                 preload: true
             });
+            
             //volume
             this.getVolume(this.currentVolume);
         },
+        
         previousSong: function(){
             var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
             var prevSongIndex = (currentSongIndex -1);

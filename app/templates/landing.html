@@ -6,11 +6,11 @@
 <!-- TODO: find function animation to make container rise-up --> 
 <section> 
     <!--Template for action items-->
-    <div class="container">
+    <actionPointsRiseUp class="container">
         <div class="selling-points container" ng-repeat="actionItems in point.actionItems">
             <span class="{{point.actionItems[$index].icon}}"></span> 
             <h4 class="point-title">{{point.actionItems[$index].title}}</h4>
             <p class="point-description">{{point.actionItems[$index].description}}</p>
         </div>
-    </div>
+    </actionPointsRiseUp>
 </section>
