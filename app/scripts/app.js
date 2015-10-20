@@ -38,7 +38,7 @@ bJams.config(function($stateProvider, $locationProvider) {
  * @return {welcome}  - Hero Text
  * @return {actionItems}  - Establishes the array with call-to-action containers
  */
-bJams.controller("LandingController", function($scope) {
+bJams.controller("LandingController", ["$scope", "$timeout", function($scope, $timeout) {
 	$scope.welcome = "Turn the music up!";
 	//$rootScope.bodyClass ="landing";
 	$scope.point = {
@@ -60,28 +60,49 @@ bJams.controller("LandingController", function($scope) {
 			}
 		]
 	};
-});
+    
+    $scope.hideDialog = function(point){
+        $scope.message = "";
+        $scope.dialogIsHidden = true;
+        $timeout(function(){
+            $scope.message = "";
+            $scope.dialogIsHidden = false; 
+        }, 2000);
+    };
+}]);
 
-bJams.directive("actionPointsRiseUp",["$window", function($window){
-    var animatePoints = function(point){
-        angular.element(point).css({
+bJams.directive("sellingPoints", ["$document",function($document){
+    var animatePoints = function(point) {
+        angular.element("container").css({
             opacity: 1,
-            transform: "scaleX(1) translateY(0)"
+            transform: 'scaleX(1) translateY(0)'
         });
     };
-    var testAnimate = function(){
-        console.log("On the right track here.");
-    };
+    
+//  $( "#new" ).click(function() {
+//      $( "input" ).triggerHandler( "focus" );
+//  });
+//  $( "container" ).scaleIn(function() {
+//      $( "<span>Focused!</span>" ).appendTo( "selling-points" ).fadeIn( 1000 );
+//  });
     
     return {
+        //only matches element name
         restrict: "E",
-        link: function(scope, element, attributes){
-          element.on("mousedown", function(event){
-              $window.on(testAnimate);
-          });  
-        
+        transclude: true,
+        scope: {
+          "close" : "&onClose"  
         }
-    };
+
+        link: function(){
+             element.css({
+             position: 'relative',
+             border: '1px solid blue',
+             backgroundColor: 'lightblue',
+             padding: "20px",
+             cursor: 'pointer'
+        });
+            templateUrl: "points-dialog.html"
 }]);
 
 /**
