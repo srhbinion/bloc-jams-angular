@@ -65,7 +65,7 @@ bJams.controller("LandingController", ["$scope", "$timeout", function($scope, $t
         $scope.message = "";
         $scope.dialogIsHidden = true;
         $timeout(function(){
-            $scope.message = "";
+           // $scope.message = "";
             $scope.dialogIsHidden = false; 
         }, 2000);
     };
@@ -79,7 +79,8 @@ bJams.directive("sellingPoints", ["$document",function($document){
         });
     };
     
-//  $( "#new" ).click(function() {
+// J Q lite = fade in on a trigger handler  
+//    $( "#new" ).click(function() {
 //      $( "input" ).triggerHandler( "focus" );
 //  });
 //  $( "container" ).scaleIn(function() {
@@ -92,17 +93,11 @@ bJams.directive("sellingPoints", ["$document",function($document){
         transclude: true,
         scope: {
           "close" : "&onClose"  
-        }
-
-        link: function(){
-             element.css({
-             position: 'relative',
-             border: '1px solid blue',
-             backgroundColor: 'lightblue',
-             padding: "20px",
-             cursor: 'pointer'
-        });
-            templateUrl: "points-dialog.html"
+        },
+        templateUrl: "templates/points-dialog.html"
+    
+    };
+            
 }]);
 
 /**
