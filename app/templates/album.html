@@ -21,8 +21,8 @@
         </thead>
         <tbody>
             <!--Song List template -->
-            <tr>
-                <td class="song-item-number">{{$index + 1}}</td>
+            <tr ng-click="setSong()" >
+                <td class="song-item-number" type="click">{{$index + 1}}</td>
                 <td class="song-item-title">{{song.name}}</td>
                 <td class="song-item-duration">{{song.length}}</td>
             </tr>
@@ -30,18 +30,20 @@
     </table>
 </main>
 <!-- ==========================Player Bar - Nav Bar=========================== -->   
-<section class="player-bar"> 
+<slider class="player-bar"> 
     <div class="container">
         <div class ="player-bar-control-group left-controls">   
             <!--TODO: ng-click="previousSong()" Fix in SongPlayer Service-->
-            <a class="previous">
+            <a class="previous" ng-click="previousSong()">
                 <span class="ion-skip-backward"></span>
             </a>
-            <a class="play-pause" ng-click="changeState()">
-                <span class="ion-play"></span>
+            <!--TODO: ng-click="togglePlayPause" Fix in SongPlayer Service-->
+            <a class="play-pause" ng-click="togglePlayPause()">
+                <span class="ion-pause" ng-show="!togglePlay"></span>
+                <span class="ion-play" ng-show="togglePlay"></span>
             </a>
             <!--TODO: ng-click="nextSong()" Fix in SongPlayer Service-->
-            <a class="next">
+            <a class="next" ng-click="nextSong()">
                 <span class="ion-skip-forward"></span>
             </a>
         </div>
@@ -70,4 +72,4 @@
             </div>
         </div>
     </div>
-</section>
+</slider>

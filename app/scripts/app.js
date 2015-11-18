@@ -17,7 +17,6 @@ bJams.config(function($stateProvider, $locationProvider) {
 	//State Provider - sets up an address for each template state
 	$stateProvider
 		.state("landing",{
-			// properties of the state listed in "controller"
 			url: "/",
 			controller:"LandingController",
 			templateUrl:"/templates/landing.html"
@@ -38,9 +37,12 @@ bJams.config(function($stateProvider, $locationProvider) {
  * @return {welcome}  - Hero Text
  * @return {actionItems}  - Establishes the array with call-to-action containers
  */
-bJams.controller("LandingController", ["$scope", "$timeout", function($scope, $timeout) {
-	$scope.welcome = "Turn the music up!";
-	//$rootScope.bodyClass ="landing";
+bJams.controller("LandingController", ["$scope", "$rootScope", function($scope, $rootScope) {
+	//welcome greeting in hero content
+    $scope.welcome = "Turn the music up!";
+    //defalut view as landing
+    $rootScope.bodyClass = "landing";
+    //array of information for 3 conent selling point areas
 	$scope.point = {
 		actionItems:[
 			{
@@ -60,45 +62,27 @@ bJams.controller("LandingController", ["$scope", "$timeout", function($scope, $t
 			}
 		]
 	};
+}]);
+
+bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$document){
     
-    $scope.hideDialog = function(point){
-        $scope.message = "";
-        $scope.dialogIsHidden = true;
-        $timeout(function(){
-           // $scope.message = "";
-            $scope.dialogIsHidden = false; 
-        }, 2000);
+    return{
+        //Specifies a URL from which the directive will load a template
+        templateUrl: "templates/slider.html",
+        //template replaces the directive's element
+        replace: true,
+        // element directive
+        restrict: "E",
+        //specifies that a new scope be created for the directive
+        scope:{
+            value:"="
+        },
+        //Responsible for registering DOM listeners and updating the DOM.
+        link: function(scope,element,attributes){
+        }
     };
 }]);
 
-bJams.directive("sellingPoints", ["$document",function($document){
-    var animatePoints = function(point) {
-        angular.element("container").css({
-            opacity: 1,
-            transform: 'scaleX(1) translateY(0)'
-        });
-    };
-    
-// J Q lite = fade in on a trigger handler  
-//    $( "#new" ).click(function() {
-//      $( "input" ).triggerHandler( "focus" );
-//  });
-//  $( "container" ).scaleIn(function() {
-//      $( "<span>Focused!</span>" ).appendTo( "selling-points" ).fadeIn( 1000 );
-//  });
-    
-    return {
-        //only matches element name
-        restrict: "E",
-        transclude: true,
-        scope: {
-          "close" : "&onClose"  
-        },
-        templateUrl: "templates/points-dialog.html"
-    
-    };
-            
-}]);
 
 /**
  * Controls the Collection view
@@ -127,6 +111,7 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
+        $scope.song = song;
     };
     // play/pause controls
     $scope.changeState = function (){
@@ -137,9 +122,16 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
             SongPlayer.play();
         }
     };
+    $scope.playingTrackIndex = SongPlayer.currentSongIndex;
+    $scope.togglePlay = $scope.playingTrackIndex === null || SongPlayer.isPaused();
+    $scope.volume = 80;
+
+    $scope.$watch('volume', function(){
+        SongPlayer.setVolume($scope.volume);
+    });
 }]);
 
-bJams.service("SongPlayer", function(albumService){
+bJams.factory("SongPlayer", function(albumService){
 	//Song status - default state
     this.currentAlbumIndex = null;
     this.currentAlbum = null;
@@ -163,20 +155,12 @@ bJams.service("SongPlayer", function(albumService){
         },
         //Gets the current album information and attaches it to the songplayer function in the controllers.
         getCurrentAlbum: function(){
+            console.log(this.currentAlbum);
             return this.currentAlbum;
-        },
-        //Gets and updates the song number
-        getCurrentlyPlayingSongNumber: function(){
-            //get the song number
-            return this.currentlyPlayingSongNumber;
-        },
-        //Gets and establishes the current song.
-        getCurrentSongFromAlbum: function(){
-            return this.currentSongFromAlbum;
         },
         //Sets the album by matching the artist names. If larger group of information may want to switch to a loop statement. This function is attached to the directive in album.html
         setCurrentAlbum: function(artist){
-            console.log(artist);
+            console.log(this.currentAlbum);
             switch (artist) {
                 case "Pablo Picasso":
                     console.log ("Setting to Picasso");
@@ -198,40 +182,50 @@ bJams.service("SongPlayer", function(albumService){
                     console.log ("Is there anything else you'd like?"); 
             }
             return this.currentAlbum;
+            console.log(setSong);
+        },
+        currentSongIndex:{
+            if (currentSoundFile) {
+                return trackIndex(currentAlbum, currentSongFromAlbum);
+            }
         },
         //TODO: Currently these only console text. Set play/pause function up to grab music
-        isSongPaused: function(){
+        isPaused: function(){
             //check if a song is playing and is in a paused state
             return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
         },
-        isSongPlaying: function(){
+        isPlaying: function(){
             //checks if a song is playing and not just paused.
             return (this.currentSoundFile && !this.currentSoundFile.isPaused());
         },
+        setVolume: function(volume) {
+          this.currentVolume = volume;
+          if (this.currentSoundFile) {
+              this.currentSoundFile.setVolume(volume);
+          }
+     	},
         play: function(){
            if(this.isSongPaused()) {
                 this.currentSoundFile.play();}
-            console.log("Play");
+            console.log("play");
         },
 		pause: function(){
 //            if(this.isSongPlaying()){
 //                this.currentSoundFile.pause();}
             console.log("pause");
         },
-        getSong: function(){
-            //find out current song
-            console.log("I'm finding out the current song in: ");
-            //return this.getCurrentSongFromAlbum; 
-        },
-        setSong: function(){
-            //currentSongFromAlbum
-            console.log("songNumber");
-            //getCurrentlyPlayingSongNumber
-            var currentSoundFile = new buzz.sound(currentSongFromAlbum.audioUrl,{
-                formats: ["mp3"],
-                preload: true
-            });
-        }
+        setSong: function() {
+            this.albumData = albumService.getAlbums();
+            console.log(this.currentSoundFile.audioUrl); 
+            //this.currentlyPlayingSongNumber = albumService[0];
+            //this.currentSongFromAlbum =this.currentAlbum.songs[this.currentlyPlayingSongNumber - 1];
+            //this.currentSoundFile = new buzz.sound(this.currentAlbum.audioUrl, {
+            //    formats: [ "mp3" ],
+            //    preload: true
+            //});
+            
+            console.log(albumService[0]);
+	    }
         /* TODO: Refactor old code below to expand this service to play music and control volume. 
         getSong: function(){
             //find out current song
