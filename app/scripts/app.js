@@ -65,7 +65,7 @@ bJams.controller("LandingController", ["$scope", "$rootScope", function($scope, 
 }]);
 
 bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$document){
-    
+    //TODO: create directive for slider
     return{
         //Specifies a URL from which the directive will load a template
         templateUrl: "templates/slider.html",
@@ -111,7 +111,7 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
     $scope.setCurrentAlbum = function(artist){
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
-        $scope.song = song;
+        $scope.song = true;
     };
     // play/pause controls
     $scope.changeState = function (){
@@ -182,11 +182,11 @@ bJams.factory("SongPlayer", function(albumService){
                     console.log ("Is there anything else you'd like?"); 
             }
             return this.currentAlbum;
-            console.log(setSong);
         },
-        currentSongIndex:{
+        //TODO: Define "currentSoundFile"
+        currentSongIndex: function(currentSoundFile){
             if (currentSoundFile) {
-                return trackIndex(currentAlbum, currentSongFromAlbum);
+                return currentSoundFile;
             }
         },
         //TODO: Currently these only console text. Set play/pause function up to grab music
@@ -200,10 +200,10 @@ bJams.factory("SongPlayer", function(albumService){
         },
         setVolume: function(volume) {
           this.currentVolume = volume;
-          if (this.currentSoundFile) {
+          if (currentSoundFile) {
               this.currentSoundFile.setVolume(volume);
           }
-     	},
+        },
         play: function(){
            if(this.isSongPaused()) {
                 this.currentSoundFile.play();}
