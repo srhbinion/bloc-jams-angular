@@ -64,26 +64,6 @@ bJams.controller("LandingController", ["$scope", "$rootScope", function($scope, 
 	};
 }]);
 
-bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$document){
-    //TODO: create directive for slider
-    return{
-        //Specifies a URL from which the directive will load a template
-        templateUrl: "templates/slider.html",
-        //template replaces the directive's element
-        replace: true,
-        // element directive
-        restrict: "E",
-        //specifies that a new scope be created for the directive
-        scope:{
-            value:"="
-        },
-        //Responsible for registering DOM listeners and updating the DOM.
-        link: function(scope,element,attributes){
-        }
-    };
-}]);
-
-
 /**
  * Controls the Collection view
  * @return {service}  - Allows the Songplayer service to be used on this page.
@@ -112,23 +92,69 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
         SongPlayer.setCurrentAlbum(artist);
         $scope.artist = artist;
         $scope.song = true;
+        $scope.volume = 80;
     };
-    // play/pause controls
-    $scope.changeState = function (){
-        if (SongPlayer.isSongPlaying){
-            SongPlayer.pause();
-        }
-        else {
-            SongPlayer.play();
-        }
+    $scope.onHoverSong = function(song){
+        this.hoveredSong = song;
+        console.log("Hovering Over: " + song.audioUrl);  
     };
-    $scope.playingTrackIndex = SongPlayer.currentSongIndex;
-    $scope.togglePlay = $scope.playingTrackIndex === null || SongPlayer.isPaused();
-    $scope.volume = 80;
+    $scope.offHoverSong = function(song) {
+        this.hoveredSong = null;
+        console.log("Not Hovering");
+    };
+    $scope.playSong = function(song) {
+        SongPlayer.setSong($scope.album, song);
+        console.log("playSong could play this song: " + song.name);
+        //$scope.getSongState();
+        //SongPlayer.setSong = !SongPlayer.setSong;
+    };
+    $scope.pauseSong = function(song) {
+        SongPlayer.isPaused();
+    };
+    $scope.previous = function(song) {
+        SongPlayer.previous();
+    };
+    $scope.next = function(song) {
+        SongPlayer.next();
+    };
+    
+    //$scope.getSongState = function(song){
+    //    if (song === true) {
+    //        console.log("playing");
+    //    } else if (song === false){
+    //        console.log("just hoover");
+    //    } else {
+    //        console.log("Nope. Get Song State");
+    //    }
+    //};
+}]);
 
-    $scope.$watch('volume', function(){
-        SongPlayer.setVolume($scope.volume);
-    });
+bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$document){
+    var calculateSliderPercentFromMouseEvent = function($slider, event) {
+        // Distance from left
+        var offsetX =  event.pageX - $slider.offset().left; 
+        // Width of slider
+        var sliderWidth = $slider.width(); 
+        var offsetXPercent = (offsetX  / sliderWidth);
+        offsetXPercent = Math.max(0, offsetXPercent);
+        offsetXPercent = Math.min(1, offsetXPercent);
+        return offsetXPercent;
+    };
+    //TODO: create directive for slider
+    return{
+        //Specifies a URL from which the directive will load a template
+        templateUrl: "templates/slider.html",
+        //template replaces the directive's element
+        replace: true,
+        // element directive
+        restrict: "E",
+        //specifies that a new scope be created for the directive
+        scope:{},
+        //Responsible for registering DOM listeners and updating the DOM.
+        link: function(scope,element,attributes){
+            console.log("moving up");
+        }
+    };
 }]);
 
 bJams.factory("SongPlayer", function(albumService){
@@ -136,11 +162,18 @@ bJams.factory("SongPlayer", function(albumService){
     this.currentAlbumIndex = null;
     this.currentAlbum = null;
     this.currentlyPlayingSongNumber = null;
-    this.currentSongFromAlbum = null;
+    //don't use?
+    //this.currentSong = null;
     this.currentSoundFile = null;
     this.currentVolume = 80;
+    
+    //maybe delete
+    this.trackIndex = function(album, song) {
+     return album.songs.indexOf(song);
+   };
   
     return {
+        playing: false,
         // Gets data from fixtures.js to run in the service
         getAlbums: function(){
             this.albumData = albumService.getAlbums();
@@ -183,55 +216,51 @@ bJams.factory("SongPlayer", function(albumService){
             }
             return this.currentAlbum;
         },
-        //TODO: Define "currentSoundFile"
-        currentSongIndex: function(currentSoundFile){
-            if (currentSoundFile) {
-                return currentSoundFile;
-            }
-        },
-        //TODO: Currently these only console text. Set play/pause function up to grab music
-        isPaused: function(){
-            //check if a song is playing and is in a paused state
-            return (this.currentSoundFile && this.currentSoundFile.isSongPaused());
-        },
+        setSong: function(album, song) {
+            //this.albumData = albumService.getAlbums();
+            this.currentAlbum = album;
+            this.currentSoundFile = song;
+            this.currentSoundFile = new buzz.sound(song.audioUrl, {
+                // Mp3 to start playing ASAP.
+                formats: ["mp3"],
+                preload: true
+            }); 
+            this.currentSoundFile.play().fadeIn();
+            // TODO: Make it switch so only one song plays at a time
+	    },
         isPlaying: function(){
-            //checks if a song is playing and not just paused.
-            return (this.currentSoundFile && !this.currentSoundFile.isPaused());
+            this.playing = true;
+            this.currentSoundFile.play();
+            console.log("play");
+        },
+		isPaused: function(){
+            this.playing = false;
+            this.currentSoundFile.stop();
+            console.log("pause");
+        },
+        previous: function(){
+            console.log("previous");
+        },
+        next: function(){
+            console.log("next");
         },
         setVolume: function(volume) {
           this.currentVolume = volume;
-          if (currentSoundFile) {
+          if (this.currentSoundFile) {
               this.currentSoundFile.setVolume(volume);
           }
-        },
-        play: function(){
-           if(this.isSongPaused()) {
-                this.currentSoundFile.play();}
-            console.log("play");
-        },
-		pause: function(){
-//            if(this.isSongPlaying()){
-//                this.currentSoundFile.pause();}
-            console.log("pause");
-        },
-        setSong: function() {
-            this.albumData = albumService.getAlbums();
-            console.log(this.currentSoundFile.audioUrl); 
-            //this.currentlyPlayingSongNumber = albumService[0];
-            //this.currentSongFromAlbum =this.currentAlbum.songs[this.currentlyPlayingSongNumber - 1];
-            //this.currentSoundFile = new buzz.sound(this.currentAlbum.audioUrl, {
-            //    formats: [ "mp3" ],
-            //    preload: true
-            //});
-            
-            console.log(albumService[0]);
-	    }
+        }
+    };
+});
+       
+
         /* TODO: Refactor old code below to expand this service to play music and control volume. 
-        getSong: function(){
+
+getSong: function(){
             //find out current song
-            return this.getCurrentSongFromAlbum;
+            return this.getCurrentSong;
         },
-        setSong: function(songNumber){
+setSong: function(songNumber){
             this.getCurrentlyPlayingSongNumber = songNumber;
             
             if (this.currentSoundFile){
@@ -241,21 +270,11 @@ bJams.factory("SongPlayer", function(albumService){
             
             this.currentlyPlayingSongNumber = songNumber;
             
-            this.currentSongFromAlbum = this.currentAlbum.songs[songNumber-1];
-            
-            // Assign a Buzz object. Pass audio file though current song from Album object.
-            this.currentSoundFile = new buzz.sound(this.currentSongFromAlbum.audioUrl, {
-                // Mp3 to start playing ASAP.
-                formats: ["mp3"],
-                preload: true
-            });
-            
-            //volume
-            this.getVolume(this.currentVolume);
-        },
+            this.currentSong = this.currentAlbum.songs[songNumber-1];
+
         
-        previousSong: function(){
-            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+previousSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSong;
             var prevSongIndex = (currentSongIndex -1);
             
             if (currentSongIndex < 0){
@@ -263,27 +282,27 @@ bJams.factory("SongPlayer", function(albumService){
             }
             this.setSong(prevSongIndex + 1);
         },
-        nextSong: function(){
-            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSongFromAlbum);
+nextSong: function(){
+            var currentSongIndex = this.currentAlbum.songs.indexOf(this.currentSong);
             var nextSongIndex = (currentSongIndex + 1);
             if(nextSongIndex >= this.currentAlbum.song.length){
                 nextSongIndex = 0;
             }
             this.setSong(nextSongIndex + 1);
         },
-        getTimePosition: function(){
+getTimePosition: function(){
             return this.currentSoundFile.getTime();
         },
-        setTimePosition: function(){
+setTimePosition: function(){
             if (this.currentSoundFile) {
                 this.currentSoundFile.setTime();
             }
         },
-        getVolume: function(){
+getVolume: function(){
             // finds out current volume
             return this.currentVolume;
         },
-        setVolume: function(volume){
+setVolume: function(volume){
             //if there is a sound file it sets the volume
             this.currentVolume = volume;
             
@@ -292,5 +311,3 @@ bJams.factory("SongPlayer", function(albumService){
             }
         }
 */        
-	};
-});

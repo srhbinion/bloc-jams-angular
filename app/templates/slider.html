@@ -1,2 +1,45 @@
-<slider>
+<!-- ==========================Player Bar - Nav Bar=========================== --> 
+<!--<ng-include src="'/templates/slider.html'"></ng-include> -->
+<slider class="player-bar"> 
+    <div class="container">
+        <div class ="player-bar-control-group left-controls">   
+            <!--TODO: ng-click="previousSong()" Fix in SongPlayer Service-->
+            <a class="previous" ng-click="previous()">
+                <span class="ion-skip-backward"></span>
+            </a>
+            <!--TODO: ng-click="togglePlayPause" Fix in SongPlayer Service-->
+            <a class="play-pause" ng-click="pauseSong()">
+                <span class="ion-pause" ng-show="!togglePlay"></span> <!--ng-show="!togglePlay"-->
+                <span class="ion-play" ng-hide="togglePlay"></span>
+            </a>
+            <!--TODO: ng-click="nextSong()" Fix in SongPlayer Service-->
+            <a class="next" ng-click="next()">
+                <span class="ion-skip-forward"></span>
+            </a>
+        </div>
+        <!-- ==========================Player Bar - Current Song=========================== --> 
+        <div class="player-bar-control-group currently-playing"> 
+            <h2 class="song-name"></h2>
+            <h2 class="artist-song-mobile"></h2>
+            <div class="seek-control">
+                <div class="seek-bar">
+                    <div class="fill"></div>
+                    <div class="thumb"></div>
+                </div>
+                <div class="current-time">2:00</div>
+                <div class="total-time">4:45</div>
+            </div>
+            <h3 class="artist-name"></h3>
+        </div>
+        <!-- ==========================Player Bar - Volume=========================== --> 
+        <div class="player-bar-control-group right-controls"> 
+            <div class="volume">
+                <span class="ion-volume-high"></span>
+                <div class="seek-bar">
+                    <div class="fill"></div>
+                    <div class="thumb"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </slider>
