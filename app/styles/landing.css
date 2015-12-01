@@ -5,6 +5,7 @@ body.landing {
  .hero-content {
      position: relative;
      min-height: 600px;
+     top: 100px;
      background-image: url(../assets/images/bloc_jams_bg.jpg);
      background-repeat: no-repeat;
      background-position: center center;
@@ -48,8 +49,8 @@ body.landing {
  }
 /*content within the 3 boxes*/
  .container {
+     top: 100px;
      border:3px;
-
 }
 /*content within the 3 boxes*/
  .point {

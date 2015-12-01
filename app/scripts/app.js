@@ -95,18 +95,23 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
         $scope.volume = 80;
     };
     $scope.onHoverSong = function(song){
-        this.hoveredSong = song;
-        console.log("Hovering Over: " + song.audioUrl);  
+        this.hoveredSong = true;
+		console.log("Hovering Over: " + song.number); 
     };
     $scope.offHoverSong = function(song) {
         this.hoveredSong = null;
-        console.log("Not Hovering");
+        console.log("Not Hovering: " + song.number);
     };
+	$scope.playPauseButtons = function(song){
+		if(this.hoveredSong === true){
+			return true;
+		} else {
+			return false;
+		};
+	};	
     $scope.playSong = function(song) {
         SongPlayer.setSong($scope.album, song);
         console.log("playSong could play this song: " + song.name);
-        //$scope.getSongState();
-        //SongPlayer.setSong = !SongPlayer.setSong;
     };
     $scope.pauseSong = function(song) {
         SongPlayer.isPaused();
@@ -116,20 +121,11 @@ bJams.controller("AlbumController", ["$scope", "SongPlayer", function($scope, So
     };
     $scope.next = function(song) {
         SongPlayer.next();
+		//console.log("playSong could play this song: " + song.name);
     };
-    
-    //$scope.getSongState = function(song){
-    //    if (song === true) {
-    //        console.log("playing");
-    //    } else if (song === false){
-    //        console.log("just hoover");
-    //    } else {
-    //        console.log("Nope. Get Song State");
-    //    }
-    //};
 }]);
 
-bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$document){
+bJams.directive("mySlider",["SongPlayer", "$document", "AlbumController", function(SongPlayer, $document, AlbumController){
     var calculateSliderPercentFromMouseEvent = function($slider, event) {
         // Distance from left
         var offsetX =  event.pageX - $slider.offset().left; 
@@ -153,6 +149,9 @@ bJams.directive("mySlider",["SongPlayer", "$document", function(SongPlayer,$docu
         //Responsible for registering DOM listeners and updating the DOM.
         link: function(scope,element,attributes){
             console.log("moving up");
+			scope.clickSeekBarPosition = function ($event) {
+				console.log("Seeking!");
+			};
         }
     };
 }]);
@@ -162,6 +161,7 @@ bJams.factory("SongPlayer", function(albumService){
     this.currentAlbumIndex = null;
     this.currentAlbum = null;
     this.currentlyPlayingSongNumber = null;
+	this.playing = null;
     //don't use?
     //this.currentSong = null;
     this.currentSoundFile = null;
@@ -216,8 +216,9 @@ bJams.factory("SongPlayer", function(albumService){
             }
             return this.currentAlbum;
         },
+		// makes selected song into this.currentSouncFile
         setSong: function(album, song) {
-            //this.albumData = albumService.getAlbums();
+            // this.albumData = albumService.getAlbums();
             this.currentAlbum = album;
             this.currentSoundFile = song;
             this.currentSoundFile = new buzz.sound(song.audioUrl, {
@@ -226,32 +227,37 @@ bJams.factory("SongPlayer", function(albumService){
                 preload: true
             }); 
             this.currentSoundFile.play().fadeIn();
+			return this.currentAlbumIndex = this.currentAlbum.songs.indexOf(song);
+			return this.playing = true;
             // TODO: Make it switch so only one song plays at a time
 	    },
         isPlaying: function(){
-            this.playing = true;
             this.currentSoundFile.play();
-            console.log("play");
+            console.log("playing");
         },
-		isPaused: function(){
-            this.playing = false;
+		//stops currentSouncFile
+		isPaused: function(song){
             this.currentSoundFile.stop();
-            console.log("pause");
+            console.log("pause works");
         },
         previous: function(){
+			console.log(this.currentAlbumIndex - 1);
+			// TODO: write code to stop current song and play new song
             console.log("previous");
         },
-        next: function(){
+        next: function(song){
+			console.log(this.currentAlbumIndex + 1);
+			// TODO: write code to stop current song and play new song
             console.log("next");
         },
         setVolume: function(volume) {
-          this.currentVolume = volume;
-          if (this.currentSoundFile) {
-              this.currentSoundFile.setVolume(volume);
-          }
+            this.currentVolume = volume;
+			console.log(this.currentVolume);
+			console.log("Turn it Down!");
         }
     };
 });
+
        
 
         /* TODO: Refactor old code below to expand this service to play music and control volume. 

@@ -1,17 +1,18 @@
 body.collection {
      background-image: url(../assets/images/blurred_backgrounds/blur_bg_2.jpg);
      background-repeat: repeat-y;
-     background-position: center center;
      background-size: cover;
  }
  
  .album-covers {
+     background-image: url(../assets/images/blurred_backgrounds/blur_bg_2.jpg);
+     background-repeat: repeat-y;
+     padding-top: 25px;
+     background-position: center center;
      padding-top: 100px;
-     position: absolute;
  } 
  
  .collection-album-container {
-     position: relative;
      margin-top: 30px;
      margin-bottom: 20px;
      text-align: center;
