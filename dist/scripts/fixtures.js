@@ -61,10 +61,7 @@ angular.module('bJams').factory('albumService', function($rootScope) {
                 ]
             }
         };        
-
         return albumService.data;
     };
-
-    return albumService;
-    
+    return albumService; 
 });

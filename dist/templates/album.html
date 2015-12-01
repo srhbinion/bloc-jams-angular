@@ -1,73 +1,48 @@
 <!-- ==============================Current Album================================= -->  
 <main class="album-view container narrow"> 
     <section class="clearfix">
+        <!-- ==========================Current Album - Details=========================== --> 
+        <!--Album Artwork -->
         <div class="column half">
-            <img ng-src="{{albumService.albumArtUrl}}" class="album-cover-art">
+            <img ng-src="{{album.albumArtUrl}}" class="album-cover-art">
         </div>
-<!-- ==========================Current Album - Details=========================== --> 
-        <div class="album-view-details column half">
-            <h1>Song Info Section:</h1>
-            <div ng-repeat="album in albums">
-                <!-- call setCurrentAlbum in album controller and pass in the artist's name -->
-                <div ng-click="setCurrentAlbum(album.artist)">{{album.artist}}</div>
-            </div>
-            <h2 class="album-view-title">Name:{{ album.name }}</h2>
-            <h3 class="album-view-artist">{{setAlbum.artist}}</h3>
+        <!--Album Details - click sets the album page-->
+        <div class="album-view-details column half" ng-click="setCurrentAlbum(album.artist)">
+            <h3 class="album-view-artist" >{{album.artist}}</h3>
+            <h2 class="album-view-title">{{album.name}}</h2>
             <h5 class="album-view-release-info">{{album.year}} {{album.label}}</h5>
         </div>
     </section>
-<!-- ==========================Current Album - Song List=========================== --> 
-    <table class="album-song-listing"> <!--ng-repeat="song in album.songs" -->
+    <!-- ==========================Current Album - Song List=========================== --> 
+    <table class="album-song-listing" ng-repeat="song in album.songs" ng-mouseenter="onHoverSong(song)" ng-mouseleave="offHoverSong(song)"> 
         <thead>
             <tr>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td class="song-item-number">{{$index + 1}}</td>
+            <!--Song List template -->
+            <tr class="song-row" ng-click="playSong(song)">
+                <td class="song-item-number" type="click">{{$index + 1}}
+                </td>    
+                <!--Number switches with play pause buttons
+                
+                    <span ng-switch="getSongState(song)">
+                    <span class="fa fa-pause" ng-switch-when="playing">
+                        <a class="album-song-button" ng-click="pauseSong(song)" type="click"></a>
+                    </span>
+                    <span class="fa fa-play" ng-switch-when="hovered">
+                        <a class="album-song-button" ng-click="playSong(song)" type="click"></a>
+                    </span>
+                    <span class="song-item-number" ng-switch-default type="click">{{ $index + 1 }}
+                    </span>
+                </span> -->
                 <td class="song-item-title">{{song.name}}</td>
                 <td class="song-item-duration">{{song.length}}</td>
             </tr>
         </tbody>
     </table>
 </main>
-<!-- ==========================Player Bar - Nav Bar=========================== -->   
-<section class="player-bar"> 
-    <div class="container">
-        <div class ="player-bar-control-group left-controls">   
-            <a class="previous" ng-click="previousSong()">
-                <span class="ion-skip-backward"></span>
-            </a>
-            <a class="play-pause">
-                <span class="ion-play"></span>
-            </a>
-            <a class="next" ng-click="nextSong()">
-                <span class="ion-skip-forward"></span>
-            </a>
-        </div>
-<!-- ==========================Player Bar - Current Song=========================== --> 
-        <div class="player-bar-control-group currently-playing"> 
-            <h2 class="song-name"></h2>
-            <h2 class="artist-song-mobile"></h2>
-            <div class="seek-control">
-                <div class="seek-bar">
-                    <div class="fill"></div>
-                    <div class="thumb"></div>
-                </div>
-                <div class="current-time">2:00</div>
-                <div class="total-time">4:45</div>
-            </div>
-            <h3 class="artist-name"></h3>
-        </div>
-<!-- ==========================Player Bar - Volume=========================== --> 
-        <div class="player-bar-control-group right-controls"> 
-            <div class="volume">
-                <span class="ion-volume-high"></span>
-                <div class="seek-bar">
-                    <div class="fill"></div>
-                    <div class="thumb"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<div>
+    <!-- ==========================Slider.html Player Bar=========================== --> 
+    <ng-include src="'/templates/slider.html'"></ng-include>
+</div>
